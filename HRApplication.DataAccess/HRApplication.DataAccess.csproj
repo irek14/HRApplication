@@ -1,19 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <Folder Include="Base\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Configuration\" />
-    <Folder Include="Migration\" />
+    <Compile Remove="Base\**" />
+    <Compile Remove="Enums\**" />
+    <EmbeddedResource Remove="Base\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <None Remove="Base\**" />
+    <None Remove="Enums\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRApplication.BuisnessEntities\HRApplication.BuisnessEntities.csproj" />
   </ItemGroup>
 
 </Project>
