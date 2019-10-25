@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace HRApplication.DataAccess.Entities
 {
-    public partial class Applicationss
+    public partial class Applications
     {
-        public Applicationss()
+        public Applications()
         {
             ApplicationStatusHistory = new HashSet<ApplicationStatusHistory>();
         }

@@ -7,7 +7,7 @@ namespace HRApplication.DataAccess.Entities
     {
         public Offers()
         {
-            Applicationss = new HashSet<Applicationss>();
+            Applications = new HashSet<Applications>();
         }
 
         public Guid Id { get; set; }
@@ -23,6 +23,6 @@ namespace HRApplication.DataAccess.Entities
 
         public virtual ContractTypes ContractType { get; set; }
         public virtual Users CreatedBy { get; set; }
-        public virtual ICollection<Applicationss> Applicationss { get; set; }
+        public virtual ICollection<Applications> Applications { get; set; }
     }
 }

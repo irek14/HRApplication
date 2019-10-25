@@ -7,7 +7,7 @@ namespace HRApplication.DataAccess.Entities
     {
         public Users()
         {
-            Applicationss = new HashSet<Applicationss>();
+            Applications = new HashSet<Applications>();
             Offers = new HashSet<Offers>();
         }
 
@@ -18,7 +18,7 @@ namespace HRApplication.DataAccess.Entities
         public Guid RoleId { get; set; }
 
         public virtual UserRoles Role { get; set; }
-        public virtual ICollection<Applicationss> Applicationss { get; set; }
+        public virtual ICollection<Applications> Applications { get; set; }
         public virtual ICollection<Offers> Offers { get; set; }
     }
 }

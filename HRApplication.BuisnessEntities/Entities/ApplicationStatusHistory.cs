@@ -10,7 +10,7 @@ namespace HRApplication.DataAccess.Entities
         public Guid ApplicationStateId { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual Applicationss Application { get; set; }
+        public virtual Applications Application { get; set; }
         public virtual ApplicationStates ApplicationState { get; set; }
     }
 }
