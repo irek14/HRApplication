@@ -50,7 +50,11 @@ namespace HRApplication.WWW.Controllers
             if (ModelState.IsValid)
             {
                 await _jobOfferService.CreateJobOffer(offers.Title, offers.Description, offers.ContractTypeId,offers.SalaryFrom, offers.SalaryTo, offers.PartTimeWork, offers.HoursPerWeek, offers.Position, offers.EndDate);
+
+                return RedirectToAction("Index", "JobOffer");
             }
+
+            ViewData["ContractTypes"] = _jobOfferService.GetContractTypes();
 
             return View(offers);
         }

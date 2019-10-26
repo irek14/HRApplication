@@ -19,7 +19,7 @@ namespace HRApplication.BusinessLogic.Services
             _context = context;
         }
 
-        public async Task CreateJobOffer(string title, string description, Guid contractType, int? salaryFrom, int? salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate)
+        public async Task CreateJobOffer(string title, string description, Guid contractType, string salaryFrom, string salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate)
         {
             Offers offer = new Offers {
                 Id = Guid.NewGuid(),
