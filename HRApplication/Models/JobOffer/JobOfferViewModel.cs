@@ -17,13 +17,19 @@ namespace HRApplication.WWW.Models.JobOffer
         public string Description { get; set; }
 
         [Display(Name = "Typ umowy")]
-        public Guid? ContractTypeId { get; set; }
+        public Guid ContractTypeId { get; set; }
+
+        [Display(Name = "Pensja od")]
+        public int SalaryFrom { get; set; }
+
+        [Display(Name = "Pensja do")]
+        public int SalaryTo { get; set; }
 
         [Display(Name = "Część etatu")]
         public bool PartTimeWork { get; set; }
 
         [Display(Name = "Godziny tygodniowo")]
-        public decimal? HoursPerWeek { get; set; }
+        public decimal HoursPerWeek { get; set; }
 
         [Display(Name = "Data zakończenia ogłoszenia")]
         public DateTime? EndDate { get; set; }
