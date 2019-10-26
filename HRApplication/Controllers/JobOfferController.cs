@@ -35,6 +35,8 @@ namespace HRApplication.WWW.Controllers
         // GET: JobOffer/Create
         public IActionResult Create()
         {
+            ViewData["ContractTypes"] = _jobOfferService.GetContractTypes();
+
             return View();
         }
 
