@@ -1,0 +1,79 @@
+﻿@model HRApplication.WWW.Models.JobOffer.JobOfferViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    .form-group.required .col-form-label:after {
+        content: " *";
+        color: red;
+    }
+</style>
+
+<h2>Dodaj ogłoszenie</h2>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row text-right required">
+                <label class="col-sm-2 col-form-label">Wpisz tytuł</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row text-right required">
+                <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-8">
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group row text-right">
+                <label asp-for="ContractTypeId" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4">
+                    <select asp-for="ContractTypeId" class="form-control" asp-items="ViewBag.ContractTypeId"></select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="PartTimeWork" class="col-sm-2 col-form-label text-right"></label>
+                <div class="col-sm-4">
+                    <input asp-for="PartTimeWork" />
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label asp-for="HoursPerWeek" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-2">
+                    <input asp-for="HoursPerWeek" class="form-control" type="number" />
+                    <span asp-validation-for="HoursPerWeek" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label asp-for="Position" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4">
+                    <input asp-for="Position" class="form-control" />
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+
+            </div>
+            <hr />
+            <div class="form-group row text-right">
+                <label asp-for="EndDate" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4">
+                    <input asp-for="EndDate" class="form-control" style="padding:2px" type="date" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group pull-right">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
