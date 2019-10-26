@@ -20,10 +20,10 @@ namespace HRApplication.WWW.Models.JobOffer
         public Guid ContractTypeId { get; set; }
 
         [Display(Name = "Pensja od")]
-        public int SalaryFrom { get; set; }
+        public string SalaryFrom { get; set; }
 
         [Display(Name = "Pensja do")]
-        public int SalaryTo { get; set; }
+        public string SalaryTo { get; set; }
 
         [Display(Name = "Część etatu")]
         public bool PartTimeWork { get; set; }

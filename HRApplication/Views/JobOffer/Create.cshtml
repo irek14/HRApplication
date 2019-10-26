@@ -33,6 +33,18 @@
             </div>
             <hr />
             <div class="form-group row text-right">
+                <label class="col-sm-2 col-form-label">Widełki płacowe</label>
+                <div class="col-sm-8" style="padding:0">
+                    <div class="col-sm-4">
+                            <input class="form-control col-sm-2" asp-for="SalaryFrom" type="text" placeholder="Od"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control col-sm-10" asp-for="SalaryTo" type="text" placeholder="Do"/>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group row text-right">
                 <label asp-for="ContractTypeId" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-4">
                     <select asp-for="ContractTypeId" class="form-control" asp-items="ViewBag.ContractTypes"></select>
