@@ -19,9 +19,24 @@ namespace HRApplication.BusinessLogic.Services
             _context = context;
         }
 
-        public Task CreateJobOffer(string title, string description, ContractType contractType, bool partTime = false, decimal weekHours = 40, string position = "", DateTime? endDate = null)
+        public async Task CreateJobOffer(string title, string description, Guid contractType, int? salaryFrom, int? salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate)
         {
-            throw new NotImplementedException();
+            Offers offer = new Offers {
+                Id = Guid.NewGuid(),
+                ContractTypeId = contractType,
+                CreatedById = Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3"),
+                CreatedOn = DateTime.Now,
+                Description = description,
+                HoursPerWeek = weekHours,
+                EndDate = endDate,
+                Position = position,
+                PartTimeWork = partTime,
+                Title = title
+            };
+
+            _context.Offers.Add(offer);
+
+            await _context.SaveChangesAsync();
         }
 
         public List<SelectListItem> GetContractTypes()

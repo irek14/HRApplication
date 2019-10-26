@@ -45,12 +45,13 @@ namespace HRApplication.WWW.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ContractTypeId,PartTimeWork,HoursPerWeek,CreatedOn,EndDate,Position")] JobOfferViewModel offers)
+        public async Task<IActionResult> Create(JobOfferViewModel offers)
         {
             if (ModelState.IsValid)
             {
-
+                await _jobOfferService.CreateJobOffer(offers.Title, offers.Description, offers.ContractTypeId,offers.SalaryFrom, offers.SalaryTo, offers.PartTimeWork, offers.HoursPerWeek, offers.Position, offers.EndDate);
             }
+
             return View(offers);
         }
 
