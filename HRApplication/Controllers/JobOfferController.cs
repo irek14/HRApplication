@@ -7,11 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.JobOffer;
+using HRApplication.BusinessLogic.Interfaces;
 
 namespace HRApplication.WWW.Controllers
 {
     public class JobOfferController : Controller
     {
+        private readonly IJobOfferService _jobOfferService;
+
+        public JobOfferController(IJobOfferService jobOfferService)
+        {
+            _jobOfferService = jobOfferService;
+        }
 
         // GET: JobOffer
         public async Task<IActionResult> Index()
