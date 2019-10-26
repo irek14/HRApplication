@@ -7,11 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.JobOffer;
+using HRApplication.BusinessLogic.Interfaces;
 
 namespace HRApplication.WWW.Controllers
 {
     public class JobOfferController : Controller
     {
+        private readonly IJobOfferService _jobOfferService;
+
+        public JobOfferController(IJobOfferService jobOfferService)
+        {
+            _jobOfferService = jobOfferService;
+        }
 
         // GET: JobOffer
         public async Task<IActionResult> Index()
@@ -28,6 +35,8 @@ namespace HRApplication.WWW.Controllers
         // GET: JobOffer/Create
         public IActionResult Create()
         {
+            ViewData["ContractTypes"] = _jobOfferService.GetContractTypes();
+
             return View();
         }
 
@@ -36,12 +45,13 @@ namespace HRApplication.WWW.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ContractTypeId,PartTimeWork,HoursPerWeek,CreatedOn,EndDate,Position")] JobOfferViewModel offers)
+        public async Task<IActionResult> Create(JobOfferViewModel offers)
         {
             if (ModelState.IsValid)
             {
-
+                await _jobOfferService.CreateJobOffer(offers.Title, offers.Description, offers.ContractTypeId,offers.SalaryFrom, offers.SalaryTo, offers.PartTimeWork, offers.HoursPerWeek, offers.Position, offers.EndDate);
             }
+
             return View(offers);
         }
 
