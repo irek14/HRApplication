@@ -1,4 +1,5 @@
 ﻿using HRApplication.BuisnessEntities.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace HRApplication.BusinessLogic.Interfaces
 {
     public interface IJobOfferService
     {
-        List<(string, string)> GetContractTypes();
+        List<SelectListItem> GetContractTypes();
 
         Task CreateJobOffer(string title, string description, ContractType contractType, bool partTime = false, decimal weekHours = 40, string position = "", DateTime? endDate = null);
     }

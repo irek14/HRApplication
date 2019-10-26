@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -22,9 +24,20 @@ namespace HRApplication.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public List<(string, string)> GetContractTypes()
+        public List<SelectListItem> GetContractTypes()
         {
-            throw new NotImplementedException();
+            var contractTypes = from type in _context.ContractTypes
+                         select new { typeId = type.Id.ToString(),typeName = type.ContractTypeName };
+
+            List<SelectListItem> result = new List<SelectListItem>();
+
+            foreach(var type in contractTypes)
+            {
+                result.Add(new SelectListItem(type.typeName,type.typeId));
+                
+            }
+
+            return result;
         }
     }
 }
