@@ -16,7 +16,7 @@ namespace HRApplication.WWW.Models.JobOffer
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
-        [Display(Name = "Typ kontraktu")]
+        [Display(Name = "Typ umowy")]
         public Guid? ContractTypeId { get; set; }
 
         [Display(Name = "Część etatu")]
