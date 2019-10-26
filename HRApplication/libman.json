@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/lib/jqueryui/",
+      "files": [
+        "jquery-ui.js",
+        "jquery-ui.css"
+      ]
+    },
+    {
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.js"
+      ]
+    },
+    {
+      "library": "datepicker@0.6.5",
+      "destination": "wwwroot/lib/datepicker",
+      "files": ["datepicker.js", "datepicker.css"]
+    }
+  ]
+}
