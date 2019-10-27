@@ -7,7 +7,7 @@
       "destination": "wwwroot/lib/jqueryui/",
       "files": [
         "jquery-ui.js",
-        "jquery-ui.css"
+        "jquery-ui.css", "themes/base/jquery-ui.min.css"
       ]
     },
     {
@@ -20,7 +20,12 @@
     {
       "library": "datepicker@0.6.5",
       "destination": "wwwroot/lib/datepicker",
-      "files": ["datepicker.js", "datepicker.css"]
+      "files": [ "datepicker.js", "datepicker.css" ]
+    },
+    {
+      "library": "font-awesome@5.11.2",
+      "destination": "wwwroot/lib/font-awesome",
+      "files": ["css/fontawesome.css"]
     }
   ]
 }
