@@ -3,6 +3,8 @@ using HRApplication.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -14,6 +16,14 @@ namespace HRApplication.BusinessLogic.Services
         public ApplicationService(HRAppDBContext context)
         {
             _context = context;
+        }
+
+        public List<Offers> GetAllJobOffers()
+        {
+            return _context.Offers
+                    .Include(x=>x.ContractType)
+                    .Where(x => x.EndDate >= DateTime.Now)
+                    .ToList();
         }
     }
 }
