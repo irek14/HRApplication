@@ -45,7 +45,7 @@ namespace HRApplication.WWW.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(JobOfferViewModel offers)
+        public async Task<IActionResult> Create(NewJobOfferViewModel offers)
         {
             if (ModelState.IsValid)
             {
