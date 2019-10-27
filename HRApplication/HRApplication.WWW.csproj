@@ -15,4 +15,8 @@
     <ProjectReference Include="..\HRApplication.BusinessLogic\HRApplication.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Application\" />
+  </ItemGroup>
+
 </Project>
