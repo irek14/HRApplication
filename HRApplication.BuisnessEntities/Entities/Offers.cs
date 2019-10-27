@@ -20,6 +20,8 @@ namespace HRApplication.DataAccess.Entities
         public DateTime? EndDate { get; set; }
         public string Position { get; set; }
         public Guid? CreatedById { get; set; }
+        public int? SalaryFrom { get; set; }
+        public int? SalaryTo { get; set; }
 
         public virtual ContractTypes ContractType { get; set; }
         public virtual Users CreatedBy { get; set; }

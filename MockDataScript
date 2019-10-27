@@ -1,0 +1,41 @@
+DECLARE 
+	@adminId uniqueidentifier,
+	@hrId uniqueidentifier,
+	@userId uniqueidentifier,
+	@stanickiId uniqueidentifier,
+	@kowalskiId uniqueidentifier,
+	@nowakId uniqueidentifier,
+	@contract1 uniqueidentifier,
+	@contract2 uniqueidentifier,
+	@contract3 uniqueidentifier,
+	@contract4 uniqueidentifier,
+	@status1 uniqueidentifier,
+	@status2 uniqueidentifier,
+	@status3 uniqueidentifier
+
+SET @adminId = NEWID();
+SET @hrId = NEWID();
+SET @userId = NEWID();
+SET @stanickiId = NEWID();
+SET @kowalskiId = NEWID();
+SET @nowakId = NEWID();
+SET @contract1 = NEWID();
+SET @contract2 = NEWID();
+SET @contract3 = NEWID();
+SET @contract4 = NEWID();
+SET @status1 = NEWID();
+SET @status2 = NEWID();
+SET @status3 = NEWID();
+
+INSERT INTO UserRoles
+VALUES(@adminId, 'Administrator'), (@hrId, 'HRMember'), (@userId, 'User')
+
+INSERT INTO Users
+VALUES(@stanickiId, 'Ireneusz', 'Stanicki', 'test@test.pl', @adminId), (@kowalskiId, 'Jan', 'Kowalski', 'kowalski@test.pl', @hrId),
+		(@nowakId, 'Adam', 'Nowak', 'nowak@test.pl', @userId)
+
+INSERT INTO ContractTypes
+VALUES (@contract1, 'Zlecenie'), (@contract2, 'O dzieło'), (@contract3, 'O pracę'), (@contract4, 'B2B')
+
+INSERT INTO ApplicationStates
+VALUES (@status1, 'New'), (@status2, 'Approved'), (@status3, 'Rejected')
