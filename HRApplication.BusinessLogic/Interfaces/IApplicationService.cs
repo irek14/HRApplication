@@ -8,5 +8,7 @@ namespace HRApplication.BusinessLogic.Interfaces
     public interface IApplicationService
     {
         List<Offers> GetAllJobOffers();
+
+        Offers GetOfferById(Guid id);
     }
 }

@@ -25,5 +25,13 @@ namespace HRApplication.BusinessLogic.Services
                     .Where(x => x.EndDate >= DateTime.Now)
                     .ToList();
         }
+
+        public Offers GetOfferById(Guid id)
+        {
+            return _context.Offers
+                    .Include(x=>x.ContractType)
+                    .Where(x => x.Id == id)
+                    .First();
+        }
     }
 }

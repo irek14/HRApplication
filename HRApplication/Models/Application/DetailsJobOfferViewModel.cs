@@ -17,7 +17,7 @@ namespace HRApplication.WWW.Models.JobOffer
         public string Description { get; set; }
 
         [Display(Name = "Typ umowy")]
-        public Guid ContractTypeId { get; set; }
+        public string ContractType { get; set; }
 
         [Display(Name = "Pensja")]
         public string Salary { get; set; }
@@ -26,9 +26,9 @@ namespace HRApplication.WWW.Models.JobOffer
         public bool PartTimeWork { get; set; }
 
         [Display(Name = "Godziny tygodniowo")]
-        public decimal HoursPerWeek { get; set; }
+        public decimal? HoursPerWeek { get; set; }
 
-        [Display(Name = "Data zakończenia ogłoszenia")]
+        [Display(Name = "Upływa")]
         public DateTime? EndDate { get; set; }
 
         [Display(Name = "Stanowisko")]
