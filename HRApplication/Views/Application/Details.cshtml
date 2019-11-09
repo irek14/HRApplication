@@ -91,7 +91,7 @@
             var form = new FormData();
             form.append("file", input.files[0]);
 
-            form.append("applicationId", "@Model.Id");
+            form.append("JobOfferId", "@Model.Id");
 
             var settings = {
                 "async": true,
@@ -107,8 +107,9 @@
                 "data": form
             }
 
-            $.ajax(settings).done(function (response) {
-                console.log(response);
+            $.ajax(settings).done(function (response) {             
+                $("#dialog-form").dialog('close');
+                alert("Twoje CV zostało wysłane!")
             });
         }
       }
