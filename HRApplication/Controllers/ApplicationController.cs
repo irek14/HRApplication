@@ -70,9 +70,14 @@ namespace HRApplication.WWW.Controllers
 
         [Route("Application/Details/Add")]
         [HttpPost]
-        public IActionResult Add(Guid ApplicationId, IFormFile file)
+        public async Task<IActionResult> Add(Guid JobOfferId, IFormFile file)
         {
-            return View();
+            bool result = await _applicationService.AddNewApplication(JobOfferId, file);
+
+            if (!result)
+                return BadRequest();
+
+            return RedirectToAction("Index", "Application");
         }
     }
 }

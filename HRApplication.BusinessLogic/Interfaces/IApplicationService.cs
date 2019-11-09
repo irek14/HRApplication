@@ -1,7 +1,9 @@
 ﻿using HRApplication.DataAccess.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRApplication.BusinessLogic.Interfaces
 {
@@ -10,5 +12,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         List<Offers> GetAllJobOffers();
 
         Offers GetOfferById(Guid id);
+
+        Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV);
     }
 }
