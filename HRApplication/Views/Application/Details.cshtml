@@ -67,6 +67,87 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Powrót</a> |
+    <a class="application">Aplikuj</a>
+</div>
+
+<script>
+  $( function() {
+
+    function addUser() {
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+            alert('The File APIs are not fully supported in this browser.');
+            return;
+        }
+
+        input = document.getElementById('fileInput');
+        if (!input) {
+            alert("Um, couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");
+        }
+        else {
+            var form = new FormData();
+            form.append("file", input.files[0]);
+
+            form.append("applicationId", "@Model.Id");
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "Add",
+                "method": "POST",
+                "headers": {
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+        }
+      }
+
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Aplikuj": addUser,
+        "Anuluj": function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+      $(".application").button().on("click", function (e) {
+        dialog.dialog( "open" );
+    });
+  } );
+</script>
+
+<div id="dialog-form" title="Aplikuj na stanowisko">
+    <form>
+        <h2>Wyślij nam swoje CV</h2>
+        <h4>My zajmiemy się resztą</h4>
+        <fieldset>
+            <input id="fileInput" type="file" />
+
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
 </div>

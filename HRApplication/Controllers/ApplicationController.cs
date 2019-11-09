@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.Application;
 using HRApplication.WWW.Models.JobOffer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRApplication.WWW.Controllers
@@ -64,6 +66,13 @@ namespace HRApplication.WWW.Controllers
             };
 
             return View(model);
+        }
+
+        [Route("Application/Details/Add")]
+        [HttpPost]
+        public IActionResult Add(Guid ApplicationId, IFormFile file)
+        {
+            return View();
         }
     }
 }
