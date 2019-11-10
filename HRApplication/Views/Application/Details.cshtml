@@ -152,7 +152,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "Add",
+                "url": "Delete",
                 "method": "POST",
                 "headers": {
                     "cache-control": "no-cache",
@@ -163,9 +163,10 @@
                 "data": form
             }
 
-              $.ajax(settings).done(function (response) {    
-                  console.log(redirect);
-                window.location.href = response.redirect;
+              $.ajax(settings).done(function (data) {  
+                  var json = JSON.parse(data);
+                  console.log(json);
+                  window.location.href = json.redirecturl;
             });
           }
       });
