@@ -128,6 +128,24 @@ namespace HRApplication.BusinessLogic.Services
             }
         }
 
+        public void EditApplication(Guid JobOfferId, IFormFile CV)
+        {
+            Guid userId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03");
+
+            var appToEdit = _context.Applicationss.Where(x => x.CreatedById == userId && x.OfferId == JobOfferId).First();
+
+            string fileName = "cv" + appToEdit.Id.ToString();
+            string connectionString = _configuration.GetConnectionString("AzureBlob");
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            var section = _configuration.GetSection("Azure");
+            string containerName = section.GetValue<string>("ContainerName");
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+            containerClient.DeleteBlobIfExists(fileName);
+
+            BlobClient blobClient = containerClient.GetBlobClient(fileName);
+            blobClient.Upload(CV.OpenReadStream());
+        }
+
         public List<Offers> GetAllJobOffers()
         {
             return _context.Offers
