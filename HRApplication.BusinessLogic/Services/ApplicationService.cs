@@ -9,20 +9,32 @@ using Microsoft.AspNetCore.Http;
 using HRApplication.BuisnessEntities.Enums;
 using System.Threading.Tasks;
 
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Configuration;
+
 namespace HRApplication.BusinessLogic.Services
 {
     public class ApplicationService: IApplicationService
     {
 
         private readonly HRAppDBContext _context;
+        private IConfiguration _configuration;
 
-        public ApplicationService(HRAppDBContext context)
+        public ApplicationService(HRAppDBContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV)
         {
+            string connectionString = _configuration.GetConnectionString("AzureBlob");
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            string containerName = "cvfiles";
+            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
+
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
