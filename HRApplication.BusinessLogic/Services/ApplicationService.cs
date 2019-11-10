@@ -104,10 +104,20 @@ namespace HRApplication.BusinessLogic.Services
 
                     var statusesToDelete = _context.ApplicationStatusHistory.Where(x => x.ApplicationId == appToDelete.Id);
 
+                    string fileName = "cv" + appToDelete.Id.ToString();
+                    string connectionString = _configuration.GetConnectionString("AzureBlob");
+                    BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+                    var section = _configuration.GetSection("Azure");
+                    string containerName = section.GetValue<string>("ContainerName");
+                    BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+                    containerClient.DeleteBlobIfExists(fileName);
+
                     _context.ApplicationStatusHistory.RemoveRange(statusesToDelete);
                     _context.Applicationss.Remove(appToDelete);
 
                     _context.SaveChanges();
+
+
 
                     transaction.Commit();
                 }
