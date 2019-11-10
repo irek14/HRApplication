@@ -72,17 +72,21 @@
     {
         <a class="application">Aplikuj</a>
     }
-    else
+    else if(!Model.IsNew)
     {
         <a class="application">Edytuj swoje zgłoszenie | </a> //TODO:
         <a class="cancelApplication">Zrezygnuj</a>
+    }
+    else
+    {
+        //TODO: Some massage about status of application
     }
 </div>
 
 <script>
   $( function() {
 
-    function addUser() {
+    function addAplication() {
         if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
             alert('W przeglądarce, której używasz nie jest możliwa operacja załączania plików - prosimy skorzystaj z nowszej wersji przeglądarki');
             return;
@@ -122,13 +126,53 @@
         }
       }
 
+      function editApplication() {
+          if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+            alert('W przeglądarce, której używasz nie jest możliwa operacja załączania plików - prosimy skorzystaj z nowszej wersji przeglądarki');
+            return;
+        }
+
+        input = document.getElementById('fileInput');
+        if (!input.files) {
+            alert("W przeglądarce, której używasz nie jest możliwa operacja załączania plików - prosimy skorzystaj z nowszej wersji przeglądarki");
+        }
+        else if (!input.files[0]) {
+            alert("Załącz swoje CV przed naciśnięciem aplikuj");
+        }
+        else {
+            var form = new FormData();
+            form.append("file", input.files[0]);
+
+            form.append("JobOfferId", "@Model.Id");
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "Edit",
+                "method": "POST",
+                "headers": {
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {             
+                $("#dialog-form").dialog('close');
+                alert("Twoje nowe CV zostało wysłane!")
+            });
+        }
+      }
+
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
       height: 400,
       width: 350,
       modal: true,
       buttons: {
-        "Aplikuj": addUser,
+        "Aplikuj": addAplication,
         "Anuluj": function() {
           dialog.dialog( "close" );
         }
@@ -137,7 +181,7 @@
 
     form = dialog.find( "form" ).on( "submit", function( event ) {
       event.preventDefault();
-      addUser();
+        addAplication();
     });
 
       $(".application").button().on("click", function (e) {
