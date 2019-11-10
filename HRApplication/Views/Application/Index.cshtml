@@ -32,23 +32,46 @@
         {
             foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Position)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ContractType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Salary)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
-                    </td>
-                </tr>
+                if (!item.IsAlreadyAppliedf)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Position)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContractType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="bg-success">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Position)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContractType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
             }
         }
     </tbody>

@@ -14,5 +14,9 @@ namespace HRApplication.BusinessLogic.Interfaces
         Offers GetOfferById(Guid id);
 
         Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV);
+
+        List<Offers> GetAlreadyAppliedoOffers(Guid userId);
+
+        bool CheckIsOfferIsAlreadyApplied(Guid userId, Guid jobOfferId);
     }
 }
