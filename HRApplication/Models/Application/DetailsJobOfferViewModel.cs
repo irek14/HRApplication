@@ -35,5 +35,7 @@ namespace HRApplication.WWW.Models.JobOffer
         public string Position { get; set; }
 
         public bool IsAlreadyApplied { get; set; }
+
+        public bool IsNew { get; set; }
     }
 }
