@@ -18,5 +18,9 @@ namespace HRApplication.BusinessLogic.Interfaces
         List<Offers> GetAlreadyAppliedoOffers(Guid userId);
 
         bool CheckIsOfferIsAlreadyApplied(Guid userId, Guid jobOfferId);
+
+        Task DeleteApplication(Guid JobOfferId);
+
+        void EditApplication(Guid JobOfferId, IFormFile CV);
     }
 }
