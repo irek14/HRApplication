@@ -87,6 +87,8 @@ namespace HRApplication.WWW.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid JobOfferId)
         {
+            await _applicationService.DeleteApplication(JobOfferId);
+
             return Json(new { redirecturl = Url.Action("Index","Application") });
         }
     }

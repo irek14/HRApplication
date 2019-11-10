@@ -92,6 +92,32 @@ namespace HRApplication.BusinessLogic.Services
             return offers.Count() != 0;
         }
 
+        public async Task DeleteApplication(Guid JobOfferId)
+        {
+            Guid userId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"); //TODO: not mock user
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var appToDelete = _context.Applicationss.Where(x => x.CreatedById == userId && x.OfferId == JobOfferId).First();
+
+                    var statusesToDelete = _context.ApplicationStatusHistory.Where(x => x.ApplicationId == appToDelete.Id);
+
+                    _context.ApplicationStatusHistory.RemoveRange(statusesToDelete);
+                    _context.Applicationss.Remove(appToDelete);
+
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
         public List<Offers> GetAllJobOffers()
         {
             return _context.Offers
