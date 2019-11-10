@@ -22,5 +22,7 @@ namespace HRApplication.WWW.Models.Application
 
         [Display(Name = "Stanowisko")]
         public string Position { get; set; }
+
+        public bool IsAlreadyAppliedf { get; set; }
     }
 }

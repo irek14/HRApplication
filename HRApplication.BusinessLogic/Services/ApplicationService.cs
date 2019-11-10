@@ -34,7 +34,7 @@ namespace HRApplication.BusinessLogic.Services
 
                     Applications application = new Applications
                     {
-                        CreatedById = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"),
+                        CreatedById = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), //TODO: Not mock user
                         CreateOn = DateTime.Now,
                         CvfileName = CV.FileName,
                         Id = Guid.NewGuid(),
@@ -62,12 +62,32 @@ namespace HRApplication.BusinessLogic.Services
             return true;
         }
 
+        public bool CheckIsOfferIsAlreadyApplied(Guid userId, Guid jobOfferId)
+        {
+            var offers = from offer in _context.Offers
+                         join application in _context.Applicationss on offer.Id equals application.OfferId
+                         where application.CreatedById == userId && offer.Id == jobOfferId
+                         select offer;
+
+            return offers.Count() != 0;
+        }
+
         public List<Offers> GetAllJobOffers()
         {
             return _context.Offers
                     .Include(x=>x.ContractType)
                     .Where(x => x.EndDate >= DateTime.Now)
                     .ToList();
+        }
+
+        public List<Offers> GetAlreadyAppliedoOffers(Guid userId)
+        {
+            var offers = from offer in _context.Offers
+                         join application in _context.Applicationss on offer.Id equals application.OfferId
+                         where application.CreatedById == userId
+                         select offer;
+
+            return offers.ToList();
         }
 
         public Offers GetOfferById(Guid id)

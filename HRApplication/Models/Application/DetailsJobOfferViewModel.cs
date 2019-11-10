@@ -33,5 +33,7 @@ namespace HRApplication.WWW.Models.JobOffer
 
         [Display(Name = "Stanowisko")]
         public string Position { get; set; }
+
+        public bool IsAlreadyApplied { get; set; }
     }
 }

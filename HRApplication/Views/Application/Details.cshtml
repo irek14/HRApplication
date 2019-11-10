@@ -68,7 +68,15 @@
 </div>
 <div>
     <a asp-action="Index">Powrót</a> |
-    <a class="application">Aplikuj</a>
+    @if (!Model.IsAlreadyApplied)
+    {
+        <a class="application">Aplikuj</a>
+    }
+    else
+    {
+        <a class="application">Edytuj swoje zgłoszenie | </a> //TODO:
+        <a class="cancelApplication">Zrezygnuj</a>
+    }
 </div>
 
 <script>

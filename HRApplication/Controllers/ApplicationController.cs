@@ -24,6 +24,7 @@ namespace HRApplication.WWW.Controllers
         public IActionResult Index()
         {
             List<Offers> offers = _applicationService.GetAllJobOffers();
+            List<Offers> alreadyApplied = _applicationService.GetAlreadyAppliedoOffers(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"));
             List<TableJobOfferViewModel> model = new List<TableJobOfferViewModel>();
 
             foreach(var offer in offers)
@@ -34,7 +35,8 @@ namespace HRApplication.WWW.Controllers
                     ContractType = offer.ContractType.ContractTypeName,
                     Position = offer.Position,
                     Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
-                    Title = offer.Title
+                    Title = offer.Title,
+                    IsAlreadyAppliedf = alreadyApplied.Contains(offer)
                 });
             }
 
@@ -62,7 +64,8 @@ namespace HRApplication.WWW.Controllers
                 PartTimeWork = offer.PartTimeWork,
                 Position = offer.Position,
                 Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
-                Title = offer.Title
+                Title = offer.Title,
+                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id)
             };
 
             return View(model);
