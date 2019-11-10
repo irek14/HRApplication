@@ -142,7 +142,33 @@
 
       $(".application").button().on("click", function (e) {
         dialog.dialog( "open" );
-    });
+      });
+
+      $(".cancelApplication").button().on("click", function (e) {
+          if (confirm("Czy na pewno chcesz zrezygnować z ubiegania się o tę posadę?")) {
+              var form = new FormData();
+            form.append("JobOfferId", "@Model.Id");
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "Add",
+                "method": "POST",
+                "headers": {
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+              $.ajax(settings).done(function (response) {    
+                  console.log(redirect);
+                window.location.href = response.redirect;
+            });
+          }
+      });
   } );
 </script>
 
