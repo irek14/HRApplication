@@ -31,7 +31,9 @@ namespace HRApplication.BusinessLogic.Services
                 EndDate = endDate,
                 Position = position,
                 PartTimeWork = partTime,
-                Title = title
+                Title = title,
+                SalaryFrom = salaryFrom == null ?(int?)null : int.Parse(salaryFrom),
+                SalaryTo = salaryTo == null ? (int?)null : int.Parse(salaryTo)
             };
 
             _context.Offers.Add(offer);
