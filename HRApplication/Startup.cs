@@ -41,6 +41,7 @@ namespace HRApplication
           ));
 
             services.AddScoped<IJobOfferService, JobOfferService>();
+            services.AddScoped<IApplicationService, ApplicationService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
