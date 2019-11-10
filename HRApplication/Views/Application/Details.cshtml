@@ -72,17 +72,21 @@
     {
         <a class="application">Aplikuj</a>
     }
+    else if(!Model.IsNew)
+    {
+        <a class="editApplication">Edytuj swoje zgłoszenie | </a> //TODO:
+        <a class="cancelApplication">Zrezygnuj</a>
+    }
     else
     {
-        <a class="application">Edytuj swoje zgłoszenie | </a> //TODO:
-        <a class="cancelApplication">Zrezygnuj</a>
+        //TODO: Some massage about status of application
     }
 </div>
 
 <script>
   $( function() {
 
-    function addUser() {
+    function addAplication() {
         if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
             alert('W przeglądarce, której używasz nie jest możliwa operacja załączania plików - prosimy skorzystaj z nowszej wersji przeglądarki');
             return;
@@ -122,27 +126,116 @@
         }
       }
 
+      function editApplication() {
+          if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+            alert('W przeglądarce, której używasz nie jest możliwa operacja załączania plików - prosimy skorzystaj z nowszej wersji przeglądarki');
+            return;
+        }
+
+        input = document.getElementById('fileInputEdit');
+        if (!input.files) {
+            alert("W przeglądarce, której używasz nie jest możliwa operacja załączania plików - prosimy skorzystaj z nowszej wersji przeglądarki");
+        }
+        else if (!input.files[0]) {
+            alert("Załącz swoje CV przed naciśnięciem aplikuj");
+        }
+        else {
+            var form = new FormData();
+            form.append("file", input.files[0]);
+
+            form.append("JobOfferId", "@Model.Id");
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "Edit",
+                "method": "POST",
+                "headers": {
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {             
+                $("#dialog-form-edit").dialog('close');
+                alert("Twoje nowe CV zostało wysłane!")
+            });
+        }
+      }
+
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
       height: 400,
       width: 350,
       modal: true,
       buttons: {
-        "Aplikuj": addUser,
+        "Aplikuj": addAplication,
         "Anuluj": function() {
           dialog.dialog( "close" );
         }
       }
-    });
+      });
+
+      dialogEdit = $("#dialog-form-edit").dialog({
+          autoOpen: false,
+          height: 400,
+          width: 350,
+          modal: true,
+          buttons: {
+              "Aplikuj": editApplication,
+              "Anuluj": function () {
+                  dialogEdit.dialog("close");
+              }
+          }
+      });
 
     form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-      addUser();
-    });
+        event.preventDefault();
+        addAplication();
+      });
+
+      form2 = dialogEdit.find("form").on("submit", function (event) {
+          event.preventDefault();
+          editApplication();
+      });
 
       $(".application").button().on("click", function (e) {
         dialog.dialog( "open" );
-    });
+      });
+
+      $(".editApplication").button().on("click", function (e) {
+          dialogEdit.dialog("open");
+      });
+
+      $(".cancelApplication").button().on("click", function (e) {
+          if (confirm("Czy na pewno chcesz zrezygnować z ubiegania się o tę posadę?")) {
+              var form = new FormData();
+            form.append("JobOfferId", "@Model.Id");
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "Delete",
+                "method": "POST",
+                "headers": {
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+              $.ajax(settings).done(function (data) {  
+                  var json = JSON.parse(data);
+                  console.log(json);
+                  window.location.href = json.redirecturl;
+            });
+          }
+      });
   } );
 </script>
 
@@ -152,6 +245,18 @@
         <h4>My zajmiemy się resztą</h4>
         <fieldset>
             <input id="fileInput" type="file" required accept=".pdf"/>
+
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
+</div>
+
+<div id="dialog-form-edit" title="Edytuj CV">
+    <form>
+        <h2>Wyślij nam swoje CV</h2>
+        <h4>Pracodawca zobaczy jego najnowszą wersję przy przeglądaniu aplikacji</h4>
+        <fieldset>
+            <input id="fileInputEdit" type="file" required accept=".pdf" />
 
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </fieldset>
