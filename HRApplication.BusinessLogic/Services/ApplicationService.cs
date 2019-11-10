@@ -9,16 +9,26 @@ using Microsoft.AspNetCore.Http;
 using HRApplication.BuisnessEntities.Enums;
 using System.Threading.Tasks;
 
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Configuration;
+
+using System.Configuration;
+using System.IO;
+
 namespace HRApplication.BusinessLogic.Services
 {
     public class ApplicationService: IApplicationService
     {
 
         private readonly HRAppDBContext _context;
+        private IConfiguration _configuration;
 
-        public ApplicationService(HRAppDBContext context)
+        public ApplicationService(HRAppDBContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV)
@@ -32,11 +42,11 @@ namespace HRApplication.BusinessLogic.Services
                         Id = Guid.NewGuid()
                     };
 
+
                     Applications application = new Applications
                     {
                         CreatedById = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), //TODO: Not mock user
                         CreateOn = DateTime.Now,
-                        CvfileName = CV.FileName,
                         Id = Guid.NewGuid(),
                         OfferId = JobOfferId,
                         ApplicationStatusHistoryId = statusHistory.Id,
@@ -47,6 +57,16 @@ namespace HRApplication.BusinessLogic.Services
                     statusHistory.ApplicationId = application.Id;
                     statusHistory.Date = application.CreateOn;
 
+                    string fileName= "cv" + application.Id.ToString();
+                    string connectionString = _configuration.GetConnectionString("AzureBlob");
+                    BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+                    var section = _configuration.GetSection("Azure");
+                    string containerName = section.GetValue<string>("ContainerName");
+                    BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+                    BlobClient blobClient = containerClient.GetBlobClient(fileName);
+                    blobClient.Upload(CV.OpenReadStream());
+
+                    application.CvfileName = fileName;
                     _context.Applicationss.Add(application);
                     _context.ApplicationStatusHistory.Add(statusHistory);
 
