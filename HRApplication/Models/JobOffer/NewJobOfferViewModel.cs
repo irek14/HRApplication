@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HRApplication.WWW.Models.JobOffer
 {
-    public class JobOfferViewModel
+    public class NewJobOfferViewModel
     {
         public Guid Id { get; set; }
 
