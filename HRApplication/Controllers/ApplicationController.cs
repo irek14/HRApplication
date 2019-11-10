@@ -91,5 +91,14 @@ namespace HRApplication.WWW.Controllers
 
             return Json(new { redirecturl = Url.Action("Index","Application") });
         }
+
+        [Route("Application/Details/Edit")]
+        [HttpPost]
+        public IActionResult Edit(Guid JobOfferId, IFormFile file)
+        {
+            _applicationService.EditApplication(JobOfferId, file);
+
+            return Ok();
+        }
     }
 }
