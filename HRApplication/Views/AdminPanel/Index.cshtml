@@ -1,0 +1,52 @@
+﻿@model IEnumerable<HRApplication.WWW.Models.AdminPanel.TableApplicationViewModel>
+
+@{
+    ViewData["Title"] = "Aplikacje";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista wszystkich aplikacji</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobOfferTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HRMemberName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobOfferTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HRMemberName)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
