@@ -20,8 +20,15 @@ namespace HRApplication.WWW.Controllers
 
         public IActionResult Index()
         {
-            List<Applications> applications = _adminService.GetAllApplications(1,1);
-            List<TableApplicationViewModel> result = new List<TableApplicationViewModel>();
+            return View();
+        }
+
+        [HttpGet]
+        public PagingViewModel GetApplications(int pageSize, int pageNumber)
+        {
+            List<Applications> applications = _adminService.GetAllApplications();
+            List<TableApplicationViewModel> applicationViewModels = new List<TableApplicationViewModel>();
+            PagingViewModel result = new PagingViewModel();
 
             foreach (Applications app in applications)
             {
@@ -34,10 +41,15 @@ namespace HRApplication.WWW.Controllers
                     JobOfferTitle = app.Offer.Title,
                     UserName = app.CreatedBy.FirstName + " " + app.CreatedBy.LastName
                 };
-                result.Add(model);
+                applicationViewModels.Add(model);
             }
 
-            return View(result);
+            result.Applications = applicationViewModels.Skip((pageNumber-1)*pageSize).Take(pageSize).ToList();
+            result.TotalRecord = applications.Count();
+            result.TotalPage = (result.TotalRecord / pageSize) + ((result.TotalRecord % pageSize) > 0 ? 1 : 0);
+
+            return result;
         }
+
     }
 }

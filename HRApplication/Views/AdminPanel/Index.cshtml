@@ -1,52 +1,139 @@
-﻿@model IEnumerable<HRApplication.WWW.Models.AdminPanel.TableApplicationViewModel>
-
-@{
-    ViewData["Title"] = "Aplikacje";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-<h2>Lista wszystkich aplikacji</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobOfferTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HRMemberName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobOfferTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HRMemberName)
-            </td>
-        </tr>
+
+<div id="applicationPanel">
+    <table id="applicationTable" class="table table-responsive table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Posada</th>
+                <th scope="col">Aplikant</th>
+                <th scope="col">Wprowadzona</th>
+                <th scope="col">Status aplikacji</th>
+                <th scope="col">Ofertę wprowadził</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script>
+        var currentPage = 1;
+        $(document).ready(function () {
+            fetchData(1);
+        });
+        function fetchData(pageNo) {
+            currentPage = pageNo;
+            //var $loading = "<div class='spinner-grow text-secondary' role='status'> < span class='sr-only' > Loading...</span ></div >";
+            //TODO: spinners
+            //$('#applicationTable').prepend($loading);
+            $.ajax({
+                url: '/adminpanel/GetApplications',
+                type: 'GET',
+                data: { pageNumber: pageNo, pageSize: 2 },
+                dataType: 'json',
+                success: function (data) {
+                    var $table = $("#applicationTable");
+                    $("#tableBody").empty();
+                    $.each(data.applications, function (i, emp) {
+                        var $row = $('<tr/>');
+                        $row.append($('<td/>').html(emp.jobOfferTitle));
+                        $row.append($('<td/>').html(emp.userName));
+                        $row.append($('<td/>').html(emp.applicationDate));
+                        $row.append($('<td/>').html(emp.applicationState));
+                        $row.append($('<td/>').html(emp.hrMemberName));
+                        $table.append($row);
+                    });
+
+                    var totalPage = parseInt(data.totalPage);
+                    var $footer = $('<tr/>');
+                    var $footerTD = $('<td/>').attr('colspan', 5).addClass('footerContent');
+
+                    if (totalPage > 0) {
+                        for (var i = 1; i <= totalPage; i++) {
+                            var $page = $('<span/>').addClass((i == currentPage) ? "current" : "");
+                            $page.html((i == currentPage) ? i : "<button onclick='fetchData(" + i + ");'>" + i + "</button>");
+                            $footerTD.append($page);
+                        }
+                        $footer.append($footerTD);
+                    }
+                    $table.append($footer);
+                },
+                error: function () {
+                    alert('Error! Please try again.');
+                }
+            }).done(function () {
+
+            });
+        }
+    </script>
 }
-    </tbody>
-</table>
+
+<style>
+
+    #applicationPanel {
+        width: 95%;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .loading {
+        float: left;
+        position: absolute;
+        margin-left: 40%;
+        width: 200px;
+        top: 100px;
+        padding: 3px;
+        border: 1px solid rgb(253, 0, 0);
+        background-color: rgb(245, 245, 78);
+        text-align: center;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    span.current {
+        cursor: auto !important;
+        background-color: #6E6E6E !important;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 5px 10px;
+        border: 1px solid #000000;
+        margin-right: 4px;
+    }
+
+    td.footerContent span a {
+        display: inline-block;
+        padding: 3px 10px;
+        background-color: chartreuse;
+        margin-right: 4px;
+        border: 1px solid #998787;
+        cursor: pointer;
+    }
+
+    td.footerContent span a {
+        text-decoration: none;
+    }
+
+    td.footerContent {
+        text-align: right;
+    }
+</style>  
