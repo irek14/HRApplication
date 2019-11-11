@@ -20,12 +20,14 @@ namespace HRApplication.BusinessLogic.Services
             _configuration = configuration;
         }
 
-        public List<Applications> GetAllApplications()
+        public List<Applications> GetAllApplications(int pageSize, int pageNumber)
         {
             var result = _context.Applicationss
                         .Include(x => x.CreatedBy)
                         .Include(x => x.Offer)
-                        .Include(x => x.Offer.CreatedBy);
+                        .Include(x => x.Offer.CreatedBy)
+                        .Skip((pageNumber - 1) * pageSize)
+                        .Take(pageSize);
 
             return result.ToList();
         }

@@ -7,6 +7,6 @@ namespace HRApplication.BusinessLogic.Interfaces
 {
     public interface IAdminService
     {
-        List<Applications> GetAllApplications();
+        List<Applications> GetAllApplications(int pageSize, int pageNumber);
     }
 }

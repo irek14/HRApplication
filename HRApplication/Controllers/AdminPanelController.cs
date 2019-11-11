@@ -20,7 +20,7 @@ namespace HRApplication.WWW.Controllers
 
         public IActionResult Index()
         {
-            List<Applications> applications = _adminService.GetAllApplications();
+            List<Applications> applications = _adminService.GetAllApplications(1,1);
             List<TableApplicationViewModel> result = new List<TableApplicationViewModel>();
 
             foreach (Applications app in applications)
