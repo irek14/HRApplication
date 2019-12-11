@@ -55,6 +55,13 @@
             var currentPage = 1;
             $(document).ready(function () {
                 fetchData(1);
+
+                $("#dateSince").change(function () {
+                    fetchData(1);
+                });
+                $("#dateTo").change(function () {
+                    fetchData(1);
+                });
             });
             function fetchData(pageNo) {
                 currentPage = pageNo;
@@ -79,7 +86,7 @@
                 $.ajax({
                     url: '/adminpanel/GetApplications',
                     type: 'GET',
-                    data: { pageNumber: pageNo, pageSize: 2 },
+                    data: { pageNumber: pageNo, pageSize: 2, dateSince: dateSince, dateTo: dateTo, person: person, jobOffer: jobOffer },
                     dataType: 'json',
                     success: function (data) {
                         var $table = $("#applicationTable");
