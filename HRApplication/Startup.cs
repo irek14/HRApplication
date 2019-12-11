@@ -43,6 +43,7 @@ namespace HRApplication
             services.AddScoped<IJobOfferService, JobOfferService>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IHRService, HRService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
