@@ -24,27 +24,13 @@ namespace HRApplication.WWW.Controllers
         }
 
         [HttpGet]
-        public PagingViewModel GetApplications(int pageSize, int pageNumber)
+        public PagingViewModel GetApplications(int pageSize, int pageNumber, DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
         {
-            List<Applications> applications = _adminService.GetAllApplications();
-            List<TableApplicationViewModel> applicationViewModels = new List<TableApplicationViewModel>();
+
+            List<TableApplicationViewModel> applications = _adminService.GetAllApplications(dateSince, dateTo, jobOffer, person);
             PagingViewModel result = new PagingViewModel();
 
-            foreach (Applications app in applications)
-            {
-                TableApplicationViewModel model = new TableApplicationViewModel
-                {
-                    ApplicationId = app.Id,
-                    ApplicationDate = app.CreateOn,
-                    ApplicationState = app.CurrentApplicationStateName,
-                    HRMemberName = app.Offer.CreatedBy.FirstName + " " + app.Offer.CreatedBy.LastName,
-                    JobOfferTitle = app.Offer.Title,
-                    UserName = app.CreatedBy.FirstName + " " + app.CreatedBy.LastName
-                };
-                applicationViewModels.Add(model);
-            }
-
-            result.Applications = applicationViewModels.Skip((pageNumber-1)*pageSize).Take(pageSize).ToList();
+            result.Applications = applications.Skip((pageNumber-1)*pageSize).Take(pageSize).ToList();
             result.TotalRecord = applications.Count();
             result.TotalPage = (result.TotalRecord / pageSize) + ((result.TotalRecord % pageSize) > 0 ? 1 : 0);
 
