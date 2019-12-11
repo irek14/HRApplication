@@ -26,6 +26,11 @@
       "library": "font-awesome@5.11.2",
       "destination": "wwwroot/lib/font-awesome",
       "files": [ "css/fontawesome.css" ]
+    },
+    {
+      "library": "datatable@2.0.1",
+      "destination": "wwwroot/lib/datatable",
+      "files": []
     }
   ]
 }
