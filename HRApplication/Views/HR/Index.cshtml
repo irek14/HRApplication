@@ -8,9 +8,6 @@
     <div class="row col-12">
         <div class="col-3">
             <div class="ibox float-e-margins shadow">
-                <div class="ibox-title">
-                    <h1>Filtry</h1>
-                </div>
                 <div class="ibox-content">
                     <div class="form-horizontal">
                         <div class="form-group">
@@ -55,29 +52,29 @@
             $(document).ready(function () {
                 fetchData(1);
 
-                //$("#dateSince").change(function () {
-                //    fetchData(1);
-                //});
-                //$("#dateTo").change(function () {
-                //    fetchData(1);
-                //});
+                $("#dateSince").change(function () {
+                    fetchData(1);
+                });
+                $("#dateTo").change(function () {
+                    fetchData(1);
+                });
             });
             function fetchData(pageNo) {
                 currentPage = pageNo;
 
-                //var person = $('#Person').val();
-                //var jobOffer = $('#JobOffer').val();
-                //var dateSince = $("#dateSince").val();
-                //var dateTo = $("#dateTo").val();
+                var person = $('#Person').val();
+                var jobOffer = $('#JobOffer').val();
+                var dateSince = $("#dateSince").val();
+                var dateTo = $("#dateTo").val();
 
-                //if (person.length == 0)
-                //    person = null;
-                //if (dateSince.length == 0)
-                //    dateSince = null;
-                //if (dateTo.length == 0)
-                //    dateTo = null;
-                //if (jobOffer.length == 0)
-                //    jobOffer = null;
+                if (person.length == 0)
+                    person = null;
+                if (dateSince.length == 0)
+                    dateSince = null;
+                if (dateTo.length == 0)
+                    dateTo = null;
+                if (jobOffer.length == 0)
+                    jobOffer = null;
 
                 //var $loading = "<div class='spinner-grow text-secondary' role='status'> < span class='sr-only' > Loading...</span ></div >";
                 //TODO: spinners
@@ -85,7 +82,7 @@
                 $.ajax({
                     url: '/adminpanel/GetApplications',
                     type: 'GET',
-                    data: { pageNumber: pageNo, pageSize: 2 },
+                    data: { pageNumber: pageNo, pageSize: 2, dateSince: dateSince, dateTo: dateTo, person: person, jobOffer: jobOffer },
                     dataType: 'json',
                     success: function (data) {
                         var $table = $("#applicationTable");
