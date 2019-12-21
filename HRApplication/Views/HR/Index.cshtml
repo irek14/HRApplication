@@ -38,6 +38,7 @@
                         <th scope="col">Aplikant</th>
                         <th scope="col">Wprowadzona</th>
                         <th scope="col">Status aplikacji</th>
+                        <th scope="col">Opcje</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -93,6 +94,7 @@
                             $row.append($('<td/>').html(emp.userName));
                             $row.append($('<td/>').html(emp.applicationDate));
                             $row.append($('<td/>').html(emp.applicationState));
+                            $row.append($('<td/>').html("<a href='hr/Details/" + emp.applicationId + "'>Edit</a>"));
                             $table.append($row);
                         });
 
