@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using HRApplication.BusinessLogic.Models.HR;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -45,6 +46,27 @@ namespace HRApplication.BusinessLogic.Services
                 result = result.Where(x => x.UserName.Contains(person));
 
             return result.ToList();
+        }
+
+        public ApplicationDetailsViewModel GetApplicationDetails(Guid appId)
+        {
+            var result = (from app in _context.Applicationss
+                          where app.Id == appId
+                          join jobOffer in _context.Offers on app.OfferId equals jobOffer.Id
+                          join user in _context.Users on app.CreatedById equals user.Id
+                          select new ApplicationDetailsViewModel()
+                          {
+                              Id = app.Id,
+                              CreatedBy = user.FirstName + " " + user.LastName,
+                              CreateOn = app.CreateOn,
+                              CurrentApplicationStateName = app.CurrentApplicationStateName,
+                              CvfileName = app.CvfileName,
+                              OfferId = jobOffer.Id,
+                              Position = jobOffer.Position,
+                              Title = jobOffer.Title
+                          }).FirstOrDefault();
+
+            return result;
         }
     }
 }
