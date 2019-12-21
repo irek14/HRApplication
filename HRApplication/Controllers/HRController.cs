@@ -44,5 +44,13 @@ namespace HRApplication.WWW.Controllers
         {
             return View(_hrService.GetApplicationDetails(Id));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadCV(string CVFileName)
+        {
+            byte[] array = await _hrService.DownloadCV(CVFileName);
+
+            return File(array, System.Net.Mime.MediaTypeNames.Application.Pdf, CVFileName + ".pdf");
+        }
     }
 }
