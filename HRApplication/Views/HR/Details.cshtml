@@ -1,0 +1,67 @@
+﻿@model HRApplication.BusinessLogic.Models.HR.ApplicationDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApplicationDetailsViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateOn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateOn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CvfileName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CvfileName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OfferId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OfferId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentApplicationStateName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentApplicationStateName)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

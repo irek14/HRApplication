@@ -38,5 +38,11 @@ namespace HRApplication.WWW.Controllers
 
             return result;
         }
+
+        [HttpGet]
+        public IActionResult Details(Guid Id)
+        {
+            return View(_hrService.GetApplicationDetails(Id));
+        }
     }
 }

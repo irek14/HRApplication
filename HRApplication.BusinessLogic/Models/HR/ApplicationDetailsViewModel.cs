@@ -9,7 +9,6 @@ namespace HRApplication.BusinessLogic.Models.HR
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Position { get; set; }
-        public Guid JobOfferId { get; set; }
         public DateTime CreateOn { get; set; }
         public string CreatedBy { get; set; }
         public string CvfileName { get; set; }
