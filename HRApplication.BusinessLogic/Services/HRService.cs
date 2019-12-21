@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using HRApplication.BusinessLogic.Models.HR;
+using System.IO;
+using Azure.Storage.Blobs;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Threading.Tasks;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -19,6 +24,27 @@ namespace HRApplication.BusinessLogic.Services
         {
             _context = context;
             _configuration = configuration;
+        }
+
+
+        public async Task<byte[]> DownloadCV(string CVFileName)
+        {
+            var section = _configuration.GetSection("Azure");
+            string containerName = section.GetValue<string>("ContainerName");
+            string _storageConnection = _configuration.GetConnectionString("AzureBlob");
+            CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_storageConnection);
+            CloudBlobClient _blobClient = cloudStorageAccount.CreateCloudBlobClient();
+            CloudBlobContainer _cloudBlobContainer = _blobClient.GetContainerReference(containerName);
+            CloudBlockBlob _blockBlob = _cloudBlobContainer.GetBlockBlobReference(CVFileName);
+            MemoryStream memStream = new MemoryStream();
+
+            await _blockBlob.DownloadToStreamAsync(memStream);
+
+            var byteArray = new byte[memStream.Length];
+            memStream.Position = 0;
+            memStream.Read(byteArray, 0, (int)memStream.Length);
+
+            return byteArray;
         }
 
         public List<TableApplicationViewModel> GetAllApplications(Guid HRMemberId,DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
@@ -68,5 +94,6 @@ namespace HRApplication.BusinessLogic.Services
 
             return result;
         }
+
     }
 }
