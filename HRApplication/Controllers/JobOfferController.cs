@@ -21,9 +21,9 @@ namespace HRApplication.WWW.Controllers
         }
 
         // GET: JobOffer
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View();
+            return View(_jobOfferService.GetAllMyOffers(Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3"))); //TODO: Change after autorizathion added
         }
 
         // GET: JobOffer/Details/5
@@ -60,14 +60,12 @@ namespace HRApplication.WWW.Controllers
         }
 
         // GET: JobOffer/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            ViewData["ContractTypes"] = _jobOfferService.GetContractTypes();
 
-            return View();
+            return View(_jobOfferService.GetJobOfferToEdit(id));
         }
 
         // POST: JobOffer/Edit/5
@@ -75,28 +73,20 @@ namespace HRApplication.WWW.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Description,ContractTypeId,PartTimeWork,HoursPerWeek,CreatedOn,EndDate,Position,CreatedById")] Offers offers)
+        public async Task<IActionResult> Edit(NewJobOfferViewModel jobOffer)
         {
-            return View();
+            _jobOfferService.EditJobOffer(jobOffer);
+
+            return RedirectToAction("Index", "JobOffer");
         }
 
         // GET: JobOffer/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public IActionResult Delete(Guid id)
         {
-            return View();
-        }
+            _jobOfferService.DeleteJobOffer(id);
 
-        // POST: JobOffer/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            return View();
-        }
 
-        private bool OffersExists(Guid id)
-        {
-            return true;
+            return RedirectToAction("Index", "JobOffer");
         }
     }
 }

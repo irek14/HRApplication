@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using HRApplication.BusinessLogic.Models.JobOffer;
+using HRApplication.WWW.Models.JobOffer;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -41,6 +43,56 @@ namespace HRApplication.BusinessLogic.Services
             await _context.SaveChangesAsync();
         }
 
+        public void DeleteJobOffer(Guid offerId)
+        {
+            Offers offer = (from offers in _context.Offers
+                            where offers.Id == offerId
+                            select offers).FirstOrDefault();
+
+            if (offer == null)
+                return;
+
+            offer.IsArchived = true;
+
+            _context.SaveChanges();
+        }
+
+        public void EditJobOffer(NewJobOfferViewModel offer)
+        {
+            Offers toEdit = (from offers in _context.Offers
+                             where offers.Id == offer.Id
+                             select offers).FirstOrDefault();
+
+            if (toEdit == null)
+                return;
+
+            toEdit.HoursPerWeek = offer.HoursPerWeek;
+            toEdit.PartTimeWork = offer.PartTimeWork;
+            toEdit.Position = offer.Position;
+            toEdit.SalaryFrom = offer.SalaryFrom == null ? (int?)null : int.Parse(offer.SalaryFrom);
+            toEdit.SalaryTo = offer.SalaryTo == null ? (int?)null : int.Parse(offer.SalaryTo);
+            toEdit.Title = offer.Title;
+            toEdit.EndDate = offer.EndDate;
+            toEdit.Description = offer.Description;
+            toEdit.ContractTypeId = offer.ContractTypeId;
+
+            _context.SaveChanges();
+        }
+
+        public List<TableJobOfferViewModel> GetAllMyOffers(Guid hrMemberId)
+        {
+            return (from offer in _context.Offers
+                   where offer.CreatedById == hrMemberId && !offer.IsArchived
+                   select new TableJobOfferViewModel()
+                   {
+                       Id = offer.Id,
+                       ContractType = offer.ContractType.ContractTypeName,
+                       Position = offer.Position,
+                       Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
+                       Title = offer.Title
+                   }).ToList();
+        }
+
         public List<SelectListItem> GetContractTypes()
         {
             var contractTypes = from type in _context.ContractTypes
@@ -53,6 +105,27 @@ namespace HRApplication.BusinessLogic.Services
                 result.Add(new SelectListItem(type.typeName,type.typeId));
                 
             }
+
+            return result;
+        }
+
+        public NewJobOfferViewModel GetJobOfferToEdit(Guid offerId)
+        {
+            var result = (from offer in _context.Offers
+                         where offer.Id == offerId
+                         select new NewJobOfferViewModel
+                         {
+                             Id = offer.Id,
+                             ContractTypeId = (Guid)offer.ContractTypeId,
+                             Description = offer.Description,
+                             EndDate = offer.EndDate,
+                             HoursPerWeek = (decimal)offer.HoursPerWeek,
+                             PartTimeWork = offer.PartTimeWork,
+                             Position = offer.Position,
+                             SalaryFrom = offer.SalaryFrom.ToString(),
+                             SalaryTo = offer.SalaryTo.ToString(),
+                             Title = offer.Title
+                         }).FirstOrDefault();
 
             return result;
         }
