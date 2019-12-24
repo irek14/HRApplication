@@ -14,5 +14,6 @@ namespace HRApplication.BusinessLogic.Models.HR
         public string CvfileName { get; set; }
         public Guid OfferId { get; set; }
         public string CurrentApplicationStateName { get; set; }
+        public bool IsNew { get; set; }
     }
 }

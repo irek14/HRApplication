@@ -64,13 +64,16 @@
 <div>
     <a asp-action="Index">Back to List</a>
     <a href="https://localhost:44351/hr/downloadCV?CVFileName=@Model.CvfileName">Pobierz CV</a>
-    <a asp-action="Accept">Akceptuj</a>
-    <a asp-action="Reject">Odrzuć</a>
+    @if (Model.IsNew)
+    {
+        <a asp-action="Accept" asp-route-id="@Model.Id">Akceptuj</a>
+        <a asp-action="Reject" asp-route-id="@Model.Id">Odrzuć</a>
+    }
+
 </div>
 
 <script>
     function DownloadCV(fileName) {
-        console.log("DUPA");
 
 
         var settings = {

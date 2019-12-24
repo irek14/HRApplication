@@ -26,6 +26,12 @@ namespace ITBoom_MSS.DataAccess.Configuration
                 .HasForeignKey(d => d.ApplicationStateId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ApplicationStatusHistory_ApplicationStates");
+
+            builder.HasOne(d => d.User)
+                .WithMany(p => p.StatusHistories)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ApplicationStatusHistory_Users");
         }
     }
 }
