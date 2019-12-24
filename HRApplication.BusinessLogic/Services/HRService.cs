@@ -113,7 +113,7 @@ namespace HRApplication.BusinessLogic.Services
                 ApplicationStateId = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Rejected].id,
                 ApplicationId = app.Id,
                 Date = DateTime.Now,
-                UserId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03") //TODO: Change after add Identity
+                UserId = Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3") //TODO: Change after add Identity
             };
 
             _context.ApplicationStatusHistory.Add(state);

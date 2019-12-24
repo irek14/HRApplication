@@ -21,9 +21,9 @@ namespace HRApplication.WWW.Controllers
         }
 
         // GET: JobOffer
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View();
+            return View(_jobOfferService.GetAllMyOffers(Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3"))); //TODO: Change after autorizathion added
         }
 
         // GET: JobOffer/Details/5

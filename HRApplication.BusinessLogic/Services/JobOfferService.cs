@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using HRApplication.BusinessLogic.Models.JobOffer;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -39,6 +40,20 @@ namespace HRApplication.BusinessLogic.Services
             _context.Offers.Add(offer);
 
             await _context.SaveChangesAsync();
+        }
+
+        public List<TableJobOfferViewModel> GetAllMyOffers(Guid hrMemberId)
+        {
+            return (from offer in _context.Offers
+                   where offer.CreatedById == hrMemberId
+                   select new TableJobOfferViewModel()
+                   {
+                       Id = offer.Id,
+                       ContractType = offer.ContractType.ContractTypeName,
+                       Position = offer.Position,
+                       Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
+                       Title = offer.Title
+                   }).ToList();
         }
 
         public List<SelectListItem> GetContractTypes()
