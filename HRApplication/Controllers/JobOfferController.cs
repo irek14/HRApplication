@@ -81,9 +81,12 @@ namespace HRApplication.WWW.Controllers
         }
 
         // GET: JobOffer/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public IActionResult Delete(Guid id)
         {
-            return View();
+            _jobOfferService.DeleteJobOffer(id);
+
+
+            return RedirectToAction("Index", "JobOffer");
         }
 
         // POST: JobOffer/Delete/5

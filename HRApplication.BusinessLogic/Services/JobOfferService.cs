@@ -42,10 +42,24 @@ namespace HRApplication.BusinessLogic.Services
             await _context.SaveChangesAsync();
         }
 
+        public void DeleteJobOffer(Guid offerId)
+        {
+            Offers offer = (from offers in _context.Offers
+                            where offers.Id == offerId
+                            select offers).FirstOrDefault();
+
+            if (offer == null)
+                return;
+
+            offer.IsArchived = true;
+
+            _context.SaveChanges();
+        }
+
         public List<TableJobOfferViewModel> GetAllMyOffers(Guid hrMemberId)
         {
             return (from offer in _context.Offers
-                   where offer.CreatedById == hrMemberId
+                   where offer.CreatedById == hrMemberId && !offer.IsArchived
                    select new TableJobOfferViewModel()
                    {
                        Id = offer.Id,
