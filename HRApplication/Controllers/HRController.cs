@@ -55,14 +55,16 @@ namespace HRApplication.WWW.Controllers
 
         public IActionResult Accept(Guid id)
         {
-            return RedirectToAction("Index", "HR");
+            _hrService.ApproveApplication(id);
+
+            return RedirectToAction("Index", "hr");
         }
 
         public IActionResult Reject(Guid id)
         {
             _hrService.RejectApplication(id);
 
-            return RedirectToAction("Index", "HR");
+            return RedirectToAction("Index", "hr");
         }
     }
 }
