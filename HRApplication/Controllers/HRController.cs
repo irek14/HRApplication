@@ -52,5 +52,17 @@ namespace HRApplication.WWW.Controllers
 
             return File(array, System.Net.Mime.MediaTypeNames.Application.Pdf, CVFileName + ".pdf");
         }
+
+        public IActionResult Accept(Guid id)
+        {
+            return RedirectToAction("Index", "HR");
+        }
+
+        public IActionResult Reject(Guid id)
+        {
+            _hrService.RejectApplication(id);
+
+            return RedirectToAction("Index", "HR");
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         ApplicationDetailsViewModel GetApplicationDetails(Guid appId);
 
         Task<byte[]> DownloadCV(string CVFileName);
+
+        void RejectApplication(Guid applicationId);
     }
 }

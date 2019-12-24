@@ -12,6 +12,7 @@ using Azure.Storage.Blobs;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading.Tasks;
+using HRApplication.BuisnessEntities.Enums;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -89,11 +90,36 @@ namespace HRApplication.BusinessLogic.Services
                               CvfileName = app.CvfileName,
                               OfferId = jobOffer.Id,
                               Position = jobOffer.Position,
-                              Title = jobOffer.Title
+                              Title = jobOffer.Title,
+                              IsNew = app.CurrentApplicationStateName == ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.New].name
                           }).FirstOrDefault();
 
             return result;
         }
 
+        public void RejectApplication(Guid applicationId)
+        {
+            Applications app = (from application in _context.Applicationss
+                                where application.Id == applicationId
+                                select application).FirstOrDefault();
+
+            if (app == null)
+                return;
+
+            app.CurrentApplicationStateName = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Rejected].name;
+
+            ApplicationStatusHistory state = new ApplicationStatusHistory
+            {
+                Id = Guid.NewGuid(),
+                ApplicationStateId = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Rejected].id,
+                ApplicationId = app.Id,
+                Date = DateTime.Now,
+                UserId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03") //TODO: Change after add Identity
+            };
+
+            _context.ApplicationStatusHistory.Add(state);
+
+            _context.SaveChanges();
+        }
     }
 }
