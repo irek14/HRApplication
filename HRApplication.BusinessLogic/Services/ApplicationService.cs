@@ -150,7 +150,7 @@ namespace HRApplication.BusinessLogic.Services
         {
             return _context.Offers
                     .Include(x=>x.ContractType)
-                    .Where(x => x.EndDate >= DateTime.Now)
+                    .Where(x => x.EndDate >= DateTime.Now && !x.IsArchived)
                     .ToList();
         }
 

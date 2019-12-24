@@ -4,14 +4,16 @@ using HRApplication.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRApplication.DataAccess.Migrations
 {
     [DbContext(typeof(HRAppDBContext))]
-    partial class HRAppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20191224123008_AddUserIdToStatusHistory")]
+    partial class AddUserIdToStatusHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,8 +121,6 @@ namespace HRApplication.DataAccess.Migrations
 
                     b.Property<decimal?>("HoursPerWeek")
                         .HasColumnType("decimal(18, 0)");
-
-                    b.Property<bool>("IsArchived");
 
                     b.Property<bool>("PartTimeWork");
 

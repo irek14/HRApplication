@@ -36,7 +36,7 @@
                 <label class="col-sm-2 col-form-label">Widełki płacowe</label>
                 <div class="col-sm-8" style="padding:0">
                     <div class="col-sm-4">
-                        <input class="form-control col-sm-2" asp-for="SalaryFrom" type="text" placeholder="Od" />
+                        <input class="form-control col-sm-10" asp-for="SalaryFrom" type="text" placeholder="Od" />
                         <span asp-validation-for="SalaryFrom" class="text-danger"></span>
                     </div>
                     <div class="col-sm-4">
@@ -77,7 +77,7 @@
             <div class="form-group row text-right">
                 <label asp-for="EndDate" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-4">
-                    <input asp-for="EndDate" id="endDate" class="form-control" style="padding:2px" type="text" />
+                    <input asp-for="EndDate" id="endDate" class="form-control" style="padding:2px" type="date" />
                     <span asp-validation-for="EndDate" class="text-danger"></span>
                 </div>
             </div>
@@ -97,7 +97,8 @@
 
 <script>
     $(document).ready(function () {
-        $('#endDate').datepicker({ minDate: 0 });
+        //$('#endDate').datepicker({ minDate: 0 });
+        //TODO: Maybe in style
 
     });
 </script>

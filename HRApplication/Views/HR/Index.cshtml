@@ -38,7 +38,7 @@
                         <th scope="col">Aplikant</th>
                         <th scope="col">Wprowadzona</th>
                         <th scope="col">Status aplikacji</th>
-                        <th scope="col">Ofertę wprowadził</th>
+                        <th scope="col">Opcje</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -47,8 +47,8 @@
     </div>
 </div>
 
-    @section Scripts{
-        <script>
+@section Scripts{
+    <script>
             var currentPage = 1;
             $(document).ready(function () {
                 fetchData(1);
@@ -76,7 +76,7 @@
                     dateTo = null;
                 if (jobOffer.length == 0)
                     jobOffer = null;
-                
+
                 //var $loading = "<div class='spinner-grow text-secondary' role='status'> < span class='sr-only' > Loading...</span ></div >";
                 //TODO: spinners
                 //$('#applicationTable').prepend($loading);
@@ -94,7 +94,7 @@
                             $row.append($('<td/>').html(emp.userName));
                             $row.append($('<td/>').html(emp.applicationDate));
                             $row.append($('<td/>').html(emp.applicationState));
-                            $row.append($('<td/>').html(emp.hrMemberName));
+                            $row.append($('<td/>').html("<a href='Details/" + emp.applicationId + "'>Szczegóły</a>"));
                             $table.append($row);
                         });
 
@@ -119,69 +119,69 @@
 
                 });
             }
-        </script>
+    </script>
+}
+
+<style>
+
+    #applicationPanel {
+        width: 95%;
+        margin: 0 auto;
+        position: relative;
     }
 
-    <style>
+    .loading {
+        float: left;
+        position: absolute;
+        margin-left: 40%;
+        width: 200px;
+        top: 100px;
+        padding: 3px;
+        border: 1px solid rgb(253, 0, 0);
+        background-color: rgb(245, 245, 78);
+        text-align: center;
+    }
 
-        #applicationPanel {
-            width: 95%;
-            margin: 0 auto;
-            position: relative;
-        }
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-        .loading {
-            float: left;
-            position: absolute;
-            margin-left: 40%;
-            width: 200px;
-            top: 100px;
-            padding: 3px;
-            border: 1px solid rgb(253, 0, 0);
-            background-color: rgb(245, 245, 78);
-            text-align: center;
-        }
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
 
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+    span.current {
+        cursor: auto !important;
+        background-color: #6E6E6E !important;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 5px 10px;
+        border: 1px solid #000000;
+        margin-right: 4px;
+    }
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
+    td.footerContent span a {
+        display: inline-block;
+        padding: 3px 10px;
+        background-color: chartreuse;
+        margin-right: 4px;
+        border: 1px solid #998787;
+        cursor: pointer;
+    }
 
-        span.current {
-            cursor: auto !important;
-            background-color: #6E6E6E !important;
-            color: #ffffff;
-            font-weight: bold;
-            padding: 5px 10px;
-            border: 1px solid #000000;
-            margin-right: 4px;
-        }
+    td.footerContent span a {
+        text-decoration: none;
+    }
 
-        td.footerContent span a {
-            display: inline-block;
-            padding: 3px 10px;
-            background-color: chartreuse;
-            margin-right: 4px;
-            border: 1px solid #998787;
-            cursor: pointer;
-        }
-
-        td.footerContent span a {
-            text-decoration: none;
-        }
-
-        td.footerContent {
-            text-align: right;
-        }
-    </style>
+    td.footerContent {
+        text-align: right;
+    }
+</style>

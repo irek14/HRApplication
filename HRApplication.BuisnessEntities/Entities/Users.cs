@@ -20,5 +20,6 @@ namespace HRApplication.DataAccess.Entities
         public virtual UserRoles Role { get; set; }
         public virtual ICollection<Applications> Applications { get; set; }
         public virtual ICollection<Offers> Offers { get; set; }
+        public virtual ICollection<ApplicationStatusHistory> StatusHistories { get; set; }
     }
 }

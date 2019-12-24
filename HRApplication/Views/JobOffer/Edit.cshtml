@@ -1,76 +1,103 @@
-﻿@model HRApplication.DataAccess.Entities.Offers
+﻿@model HRApplication.WWW.Models.JobOffer.NewJobOfferViewModel
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<style>
+    .form-group.required .col-form-label:after {
+        content: " *";
+        color: red;
+    }
+</style>
 
-<h4>Offers</h4>
+<h2>Edytuj ogłoszenie</h2>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContractTypeId" class="control-label"></label>
-                <select asp-for="ContractTypeId" class="form-control" asp-items="ViewBag.ContractTypeId"></select>
-                <span asp-validation-for="ContractTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="PartTimeWork" /> @Html.DisplayNameFor(model => model.PartTimeWork)
-                    </label>
+            <div class="form-group row text-right required">
+                <label class="col-sm-2 col-form-label">Wpisz tytuł</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="HoursPerWeek" class="control-label"></label>
-                <input asp-for="HoursPerWeek" class="form-control" />
-                <span asp-validation-for="HoursPerWeek" class="text-danger"></span>
+            <div class="form-group row text-right required">
+                <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-8">
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
+            <hr />
+            <div class="form-group row text-right">
+                <label class="col-sm-2 col-form-label">Widełki płacowe</label>
+                <div class="col-sm-8" style="padding:0">
+                    <div class="col-sm-4">
+                        <input class="form-control col-sm-10" asp-for="SalaryFrom" type="text" placeholder="Od" />
+                        <span asp-validation-for="SalaryFrom" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control col-sm-10" asp-for="SalaryTo" type="text" placeholder="Do" />
+                        <span asp-validation-for="SalaryTo" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+            <hr />
+            <div class="form-group row text-right">
+                <label asp-for="ContractTypeId" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4">
+                    <select asp-for="ContractTypeId" class="form-control" asp-items="ViewBag.ContractTypes"></select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
+            <div class="form-group row">
+                <label asp-for="PartTimeWork" class="col-sm-2 col-form-label text-right"></label>
+                <div class="col-sm-4">
+                    <input asp-for="PartTimeWork" />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedById" class="control-label"></label>
-                <select asp-for="CreatedById" class="form-control" asp-items="ViewBag.CreatedById"></select>
-                <span asp-validation-for="CreatedById" class="text-danger"></span>
+            <div class="form-group row text-right">
+                <label asp-for="HoursPerWeek" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-2">
+                    <input id="hours" asp-for="HoursPerWeek" min="0" value="40" class="form-control" type="number" />
+                    <span asp-validation-for="HoursPerWeek" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="form-group row text-right">
+                <label asp-for="Position" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4">
+                    <input asp-for="Position" class="form-control" />
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+
+            </div>
+            <hr />
+            <div class="form-group row text-right">
+                <label asp-for="EndDate" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-4">
+                    <input asp-for="EndDate" id="endDate" class="form-control" style="padding:2px" type="date" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-5 pull-right">
+                <div class="form-group col-sm-2">
+                    <input type="button" value="Powrót" class="btn btn-primary pull-right" />
+                </div>
+                <div class="form-group col-sm-2">
+                    <input type="submit" value="Zapisz" class="btn btn-success pull-right" />
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+<script>
+    $(document).ready(function () {
+        //$('#endDate').datepicker({ minDate: 0 });
+        //TODO: Maybe later with styles
+    });
+</script>
