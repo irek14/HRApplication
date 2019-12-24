@@ -20,5 +20,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         void DeleteJobOffer(Guid offerId);
 
         NewJobOfferViewModel GetJobOfferToEdit(Guid offerId);
+
+        void EditJobOffer(NewJobOfferViewModel offer);
     }
 }
