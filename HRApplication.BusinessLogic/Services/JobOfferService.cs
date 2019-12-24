@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HRApplication.BusinessLogic.Models.JobOffer;
+using HRApplication.WWW.Models.JobOffer;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -82,6 +83,27 @@ namespace HRApplication.BusinessLogic.Services
                 result.Add(new SelectListItem(type.typeName,type.typeId));
                 
             }
+
+            return result;
+        }
+
+        public NewJobOfferViewModel GetJobOfferToEdit(Guid offerId)
+        {
+            var result = (from offer in _context.Offers
+                         where offer.Id == offerId
+                         select new NewJobOfferViewModel
+                         {
+                             Id = offer.Id,
+                             ContractTypeId = (Guid)offer.ContractTypeId,
+                             Description = offer.Description,
+                             EndDate = offer.EndDate,
+                             HoursPerWeek = (decimal)offer.HoursPerWeek,
+                             PartTimeWork = offer.PartTimeWork,
+                             Position = offer.Position,
+                             SalaryFrom = offer.SalaryFrom.ToString(),
+                             SalaryTo = offer.SalaryTo.ToString(),
+                             Title = offer.Title
+                         }).FirstOrDefault();
 
             return result;
         }
