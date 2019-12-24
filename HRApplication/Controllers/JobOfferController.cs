@@ -63,6 +63,8 @@ namespace HRApplication.WWW.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
+            ViewData["ContractTypes"] = _jobOfferService.GetContractTypes();
+
             return View(_jobOfferService.GetJobOfferToEdit(id));
         }
 
@@ -73,7 +75,9 @@ namespace HRApplication.WWW.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(NewJobOfferViewModel jobOffer)
         {
-            return View();
+            _jobOfferService.EditJobOffer(jobOffer);
+
+            return RedirectToAction("Index", "JobOffer");
         }
 
         // GET: JobOffer/Delete/5

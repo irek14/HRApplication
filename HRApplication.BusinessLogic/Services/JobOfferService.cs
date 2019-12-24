@@ -57,6 +57,28 @@ namespace HRApplication.BusinessLogic.Services
             _context.SaveChanges();
         }
 
+        public void EditJobOffer(NewJobOfferViewModel offer)
+        {
+            Offers toEdit = (from offers in _context.Offers
+                             where offers.Id == offer.Id
+                             select offers).FirstOrDefault();
+
+            if (toEdit == null)
+                return;
+
+            toEdit.HoursPerWeek = offer.HoursPerWeek;
+            toEdit.PartTimeWork = offer.PartTimeWork;
+            toEdit.Position = offer.Position;
+            toEdit.SalaryFrom = offer.SalaryFrom == null ? (int?)null : int.Parse(offer.SalaryFrom);
+            toEdit.SalaryTo = offer.SalaryTo == null ? (int?)null : int.Parse(offer.SalaryTo);
+            toEdit.Title = offer.Title;
+            toEdit.EndDate = offer.EndDate;
+            toEdit.Description = offer.Description;
+            toEdit.ContractTypeId = offer.ContractTypeId;
+
+            _context.SaveChanges();
+        }
+
         public List<TableJobOfferViewModel> GetAllMyOffers(Guid hrMemberId)
         {
             return (from offer in _context.Offers
