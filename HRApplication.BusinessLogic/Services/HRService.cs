@@ -27,7 +27,6 @@ namespace HRApplication.BusinessLogic.Services
             _configuration = configuration;
         }
 
-
         public async Task<byte[]> DownloadCV(string CVFileName)
         {
             var section = _configuration.GetSection("Azure");
@@ -112,6 +111,31 @@ namespace HRApplication.BusinessLogic.Services
             {
                 Id = Guid.NewGuid(),
                 ApplicationStateId = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Rejected].id,
+                ApplicationId = app.Id,
+                Date = DateTime.Now,
+                UserId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03") //TODO: Change after add Identity
+            };
+
+            _context.ApplicationStatusHistory.Add(state);
+
+            _context.SaveChanges();
+        }
+
+        public void ApproveApplication(Guid applicationId)
+        {
+            Applications app = (from application in _context.Applicationss
+                                where application.Id == applicationId
+                                select application).FirstOrDefault();
+
+            if (app == null)
+                return;
+
+            app.CurrentApplicationStateName = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Approved].name;
+
+            ApplicationStatusHistory state = new ApplicationStatusHistory
+            {
+                Id = Guid.NewGuid(),
+                ApplicationStateId = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Approved].id,
                 ApplicationId = app.Id,
                 Date = DateTime.Now,
                 UserId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03") //TODO: Change after add Identity

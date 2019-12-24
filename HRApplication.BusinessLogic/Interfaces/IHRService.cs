@@ -17,5 +17,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         Task<byte[]> DownloadCV(string CVFileName);
 
         void RejectApplication(Guid applicationId);
+
+        void ApproveApplication(Guid applicationId);
     }
 }
