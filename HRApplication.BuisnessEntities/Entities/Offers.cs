@@ -22,6 +22,7 @@ namespace HRApplication.DataAccess.Entities
         public Guid? CreatedById { get; set; }
         public int? SalaryFrom { get; set; }
         public int? SalaryTo { get; set; }
+        public bool IsArchived { get; set; }
 
         public virtual ContractTypes ContractType { get; set; }
         public virtual Users CreatedBy { get; set; }

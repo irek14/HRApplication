@@ -15,5 +15,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         Task CreateJobOffer(string title, string description, Guid contractType,string salaryFrom, string salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate);
 
         List<TableJobOfferViewModel> GetAllMyOffers(Guid hrMemberId);
+
+        void DeleteJobOffer(Guid offerId);
     }
 }
