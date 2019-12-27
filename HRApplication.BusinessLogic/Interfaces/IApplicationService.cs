@@ -22,5 +22,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         Task DeleteApplication(Guid JobOfferId);
 
         void EditApplication(Guid JobOfferId, IFormFile CV);
+
+        Task SendNorificationToHRMember(string email, string userName);
     }
 }
