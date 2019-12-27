@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 
 using System.Configuration;
 using System.IO;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -71,6 +73,9 @@ namespace HRApplication.BusinessLogic.Services
                     _context.ApplicationStatusHistory.Add(statusHistory);
 
                     _context.SaveChanges();
+
+                    Offers offer = _context.Offers.Where(x => x.Id == JobOfferId).Include(x=>x.CreatedBy).First();
+                    await SendNorificationToHRMember(offer.CreatedBy.Email, offer.CreatedBy.FirstName + " " + offer.CreatedBy.LastName);
 
                     transaction.Commit();
                 }
@@ -170,6 +175,27 @@ namespace HRApplication.BusinessLogic.Services
                     .Include(x=>x.ContractType)
                     .Where(x => x.Id == id)
                     .First();
+        }
+
+        public async Task SendNorificationToHRMember(string email, string userName)
+        {
+            var section = _configuration.GetSection("SendGrid");
+            string apiKey = section.GetValue<string>("SendGridKey");
+            string senderMail = section.GetValue<string>("Email");
+            string senderName = section.GetValue<string>("Name");
+
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress(senderMail, senderName);
+            List<EmailAddress> tos = new List<EmailAddress>
+            {
+                new EmailAddress(email, userName)
+            };
+
+            var subject = "Nowa aplikacja";
+            var htmlContent = "<strong>Na stronie HRApplication dodano nową aplikację na Twoje stanowisko</strong><br/>Zaloguj się tam, aby sprawdzić nowe zgłoszenie i na nie odpowiedzieć";
+            var displayRecipients = false; // set this to true if you want recipients to see each others mail id 
+            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, tos, subject, "", htmlContent, false);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }
