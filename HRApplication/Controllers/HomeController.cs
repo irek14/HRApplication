@@ -12,6 +12,7 @@ namespace HRApplication.Controllers
     {
         public IActionResult Index()
         {
+            var a = User;
             return View();
         }
 
