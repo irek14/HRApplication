@@ -18,7 +18,7 @@ namespace HRApplication.WWW.Controllers
             bool test1 = User.IsInRole("Admin");
 
             if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("SignIn", "AzureADB2C//Account");
+                return RedirectToAction("SignIn", "Session");
 
             (User.Identity as ClaimsIdentity).AddClaim(new Claim(ClaimTypes.Role, "Admin"));
             ClaimsPrincipal claims = User as ClaimsPrincipal;

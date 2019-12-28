@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
+using static HRApplication.BusinessLogic.Services.AzureAdB2CAuthenticationBuilderExtensions;
 
 namespace HRApplication
 {
@@ -32,26 +35,43 @@ namespace HRApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<HRAppDBContext>(options =>
           options.UseSqlServer(
               Configuration.GetConnectionString("DefaultConnection")
           ));
 
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddScoped<IJobOfferService, JobOfferService>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IHRService, HRService>();
+            //services.AddScoped<IConfigureOptions<OpenIdConnectOptions>, OpenIdConnectOptionsSetup>();
 
-            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-                .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddAzureAdB2C(options => Configuration.Bind("AzureAdB2C", options))
+            .AddCookie();
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -69,11 +89,17 @@ namespace HRApplication
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+            //app.UseCookiePolicy();
+
+
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+
+            app.UseSession();
 
             app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
