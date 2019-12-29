@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using HRApplication.WWW;
 using HRApplication.DataAccess.Entities;
+using HRApplication.BusinessLogic.Interfaces;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -28,6 +29,8 @@ namespace HRApplication.BusinessLogic.Services
         {
             builder.Services.Configure(configureOptions);
             builder.Services.AddSingleton<IConfigureOptions<OpenIdConnectOptions>, OpenIdConnectOptionsSetup>();
+            //builder.Services.AddScoped<HRAppDBContext>();
+            //builder.Services.AddSingleton<IUserService, UserService>();
             builder.AddOpenIdConnect();
             return builder;
         }
@@ -35,10 +38,11 @@ namespace HRApplication.BusinessLogic.Services
         public class OpenIdConnectOptionsSetup : IConfigureNamedOptions<OpenIdConnectOptions>
         {
             private readonly HRAppDBContext _context;
-            public OpenIdConnectOptionsSetup(IOptions<AzureAdB2COptions> b2cOptions)
+            private readonly IServiceScopeFactory _scopeFactory;
+            public OpenIdConnectOptionsSetup(IOptions<AzureAdB2COptions> b2cOptions,  IServiceScopeFactory scopeFactory)
             {
                 AzureAdB2COptions = b2cOptions.Value;
-                //_context = context;
+                _scopeFactory = scopeFactory;
             }
 
             public AzureAdB2COptions AzureAdB2COptions { get; set; }
@@ -123,15 +127,28 @@ namespace HRApplication.BusinessLogic.Services
 
                 if (context.Principal != null)
                 {
+                    using (var scope = _scopeFactory.CreateScope())
+                    {
+                        var db = scope.ServiceProvider.GetRequiredService<HRAppDBContext>();
 
-                    var claims = context.Principal.Identities.First().Claims;
-                    Users au = new Users();
-                    var v = claims.FirstOrDefault(x => ClaimTypes.Email == x.Type || x.Type == "email" || x.Type == "emails");
-                    var v1 = claims.FirstOrDefault(x => ClaimTypes.GivenName == x.Type);
-                    var v2 = claims.FirstOrDefault(x => ClaimTypes.Surname == x.Type);
-                    au.Email = v != null ? v.Value : "";
-                    au.FirstName = v1 != null ? v1.Value : "";
-                    au.LastName = v2 != null ? v2.Value : "";
+                        string role = db.UserRoles.Where(x => x.Id == Guid.Parse("DDF9A36C-0C99-4BF3-B80A-43E4D0835D1D")).Select(x => x.RoleName).First();
+                        context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, role));
+
+                        //DDF9A36C - 0C99 - 4BF3 - B80A - 43E4D0835D1D
+
+                        // when we exit the using block,
+                        // the IServiceScope will dispose itself 
+                        // and dispose all of the services that it resolved.
+                    }
+
+                    //var claims = context.Principal.Identities.First().Claims;
+                    //Users au = new Users();
+                    //var v = claims.FirstOrDefault(x => ClaimTypes.Email == x.Type || x.Type == "email" || x.Type == "emails");
+                    //var v1 = claims.FirstOrDefault(x => ClaimTypes.GivenName == x.Type);
+                    //var v2 = claims.FirstOrDefault(x => ClaimTypes.Surname == x.Type);
+                    //au.Email = v != null ? v.Value : "";
+                    //au.FirstName = v1 != null ? v1.Value : "";
+                    //au.LastName = v2 != null ? v2.Value : "";
                     //var first = _context.Users.Where(x => x.Email == au.Email).Include(i => i.Role).FirstOrDefault();
 
 
@@ -145,7 +162,7 @@ namespace HRApplication.BusinessLogic.Services
                         //_context.SaveChanges();
                         //first = au;
                     }
-                    context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                    //context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, "Admin"));
 
                     var p = context.Principal.Identities.First();
                 }

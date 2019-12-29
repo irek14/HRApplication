@@ -42,20 +42,19 @@ namespace HRApplication
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
 
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<HRAppDBContext>(options =>
           options.UseSqlServer(
               Configuration.GetConnectionString("DefaultConnection")
-          ));
+          ),ServiceLifetime.Scoped);
 
-            IdentityModelEventSource.ShowPII = true;
+            //IdentityModelEventSource.ShowPII = true;
 
             services.AddScoped<IJobOfferService, JobOfferService>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IHRService, HRService>();
-            //services.AddScoped<IConfigureOptions<OpenIdConnectOptions>, OpenIdConnectOptionsSetup>();
 
             services.AddAuthentication(sharedOptions =>
             {
@@ -65,6 +64,8 @@ namespace HRApplication
             .AddAzureAdB2C(options => Configuration.Bind("AzureAdB2C", options))
             .AddCookie();
 
+            services.AddMvc();
+
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -73,7 +74,7 @@ namespace HRApplication
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

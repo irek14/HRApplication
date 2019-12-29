@@ -1,7 +1,9 @@
-﻿@using System.Security.Principal
+﻿@*@using System.Security.Principal
 @using Microsoft.AspNetCore.Authentication.AzureADB2C.UI
 @using Microsoft.Extensions.Options
-@inject IOptionsMonitor<AzureADB2COptions> AzureADB2COptions
+@inject 
+    
+    <AzureADB2COptions> AzureADB2COptions
 
 @{
     var options = AzureADB2COptions.Get(AzureADB2CDefaults.AuthenticationScheme);
@@ -24,4 +26,4 @@
             <a class="nav-link text-dark" asp-area="AzureADB2C" asp-controller="Account" asp-action="SignIn">Zaloguj</a>
         </li>
     }
-</ul>
+</ul>*@
