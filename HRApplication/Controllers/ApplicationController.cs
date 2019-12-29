@@ -7,11 +7,13 @@ using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.Application;
 using HRApplication.WWW.Models.JobOffer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRApplication.WWW.Controllers
 {
+    [Authorize(Roles = "User, Admin, HR")]
     public class ApplicationController : Controller
     {
         private readonly IApplicationService _applicationService;

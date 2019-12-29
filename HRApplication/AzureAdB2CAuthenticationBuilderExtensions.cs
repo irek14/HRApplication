@@ -29,8 +29,6 @@ namespace HRApplication.BusinessLogic.Services
         {
             builder.Services.Configure(configureOptions);
             builder.Services.AddSingleton<IConfigureOptions<OpenIdConnectOptions>, OpenIdConnectOptionsSetup>();
-            //builder.Services.AddScoped<HRAppDBContext>();
-            //builder.Services.AddSingleton<IUserService, UserService>();
             builder.AddOpenIdConnect();
             return builder;
         }
@@ -131,38 +129,19 @@ namespace HRApplication.BusinessLogic.Services
                     {
                         var db = scope.ServiceProvider.GetRequiredService<HRAppDBContext>();
 
-                        string role = db.UserRoles.Where(x => x.Id == Guid.Parse("DDF9A36C-0C99-4BF3-B80A-43E4D0835D1D")).Select(x => x.RoleName).First();
-                        context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, role));
+                        string email = context.Principal.Identities.First().Claims.Where(x => x.Type == "emails").First().Value;
 
-                        //DDF9A36C - 0C99 - 4BF3 - B80A - 43E4D0835D1D
+                        var user = db.Users.Include(x => x.Role).Where(x => x.Email == email).FirstOrDefault();
 
-                        // when we exit the using block,
-                        // the IServiceScope will dispose itself 
-                        // and dispose all of the services that it resolved.
+                        if(user == null)
+                        {
+                            db.Users.Add(new Users() { Id = Guid.NewGuid(), Email = email, RoleId = Guid.Parse("6553A065-5414-4A04-B6DC-EEFCAEF6133D") }); //TODO: Not hardcode it
+                            return;
+                        }
+
+                        context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, user.Role.RoleName));
+                        context.Principal.Identities.First().AddClaim(new Claim(context.Principal.Identities.First().NameClaimType, user.FirstName + " " + user.LastName));
                     }
-
-                    //var claims = context.Principal.Identities.First().Claims;
-                    //Users au = new Users();
-                    //var v = claims.FirstOrDefault(x => ClaimTypes.Email == x.Type || x.Type == "email" || x.Type == "emails");
-                    //var v1 = claims.FirstOrDefault(x => ClaimTypes.GivenName == x.Type);
-                    //var v2 = claims.FirstOrDefault(x => ClaimTypes.Surname == x.Type);
-                    //au.Email = v != null ? v.Value : "";
-                    //au.FirstName = v1 != null ? v1.Value : "";
-                    //au.LastName = v2 != null ? v2.Value : "";
-                    //var first = _context.Users.Where(x => x.Email == au.Email).Include(i => i.Role).FirstOrDefault();
-
-
-
-                    //_context.Users.Select(x=>x).Include().FirstOrDefault(x => x.Email == au.Email);
-
-                    //if (first == null)
-                    {
-                        //au.Role = _context.Roles.First(x => x.RoleName == Roles.User.ToString());
-                        //_context.Users.Add(au);
-                        //_context.SaveChanges();
-                        //first = au;
-                    }
-                    //context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, "Admin"));
 
                     var p = context.Principal.Identities.First();
                 }

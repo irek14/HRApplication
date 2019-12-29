@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.AdminPanel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRApplication.WWW.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminPanelController : Controller
     {
         IAdminService _adminService;

@@ -1,29 +1,25 @@
-﻿@*@using System.Security.Principal
+﻿@using System.Security.Principal
 @using Microsoft.AspNetCore.Authentication.AzureADB2C.UI
 @using Microsoft.Extensions.Options
-@inject 
-    
-    <AzureADB2COptions> AzureADB2COptions
+@inject IOptionsMonitor<AzureADB2COptions> AzureADB2COptions
 
 @{
     var options = AzureADB2COptions.Get(AzureADB2CDefaults.AuthenticationScheme);
 }
 
 
-<ul class="navbar-nav">
-    @if (User.Identity.IsAuthenticated)
-    {
-        <li class="nav-item">
-            <span class="nav-text text-dark">Witaj, @User.Identity.Name!</span>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="AzureADB2C" asp-controller="Account" asp-action="SignOut">Wyloguj</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="AzureADB2C" asp-controller="Account" asp-action="SignIn">Zaloguj</a>
-        </li>
-    }
-</ul>*@
+@if (User.Identity.IsAuthenticated)
+{
+    <li>
+        <a class="text-white" asp-controller="Api" asp-action="LogIn">Witaj, @User.Identity.Name!</a>
+    </li>
+    <li>
+        <a class="nav-link text-white" asp-controller="Api" asp-action="SignOut">Wyloguj</a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-controller="Api" asp-action="LogIn">Zaloguj</a>
+    </li>
+}

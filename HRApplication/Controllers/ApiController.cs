@@ -4,38 +4,66 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 //using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace HRApplication.WWW.Controllers
 {
     public class ApiController : Controller
     {
-        public async Task<IActionResult> LogIn()
+        public AzureAdB2COptions AzureAdB2COptions { get; set; }
+
+        public ApiController(IOptions<AzureAdB2COptions> b2cOptions)
         {
-            bool test1 = User.IsInRole("Admin");
+            AzureAdB2COptions = b2cOptions.Value;
+        }
 
+        public IActionResult LogIn()
+        {
             if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("SignIn", "Session");
+                return RedirectToAction("SignIn", "Api");
 
-            (User.Identity as ClaimsIdentity).AddClaim(new Claim(ClaimTypes.Role, "Admin"));
-            ClaimsPrincipal claims = User as ClaimsPrincipal;
+            if (User.Identity.Name == null)
+                RedirectToAction("Api", "Register");
 
-            //await HttpContext.Authentication.SignOutAsync(HttpContext);
-            //await HttpContext.Authentication.SignInAsync(DefaultAuthenticationTypes.ApplicationCookie, claims);
+            if (User.IsInRole("Admin"))
+                return RedirectToAction("Index", "AdminPanel");
+            else if (User.IsInRole("HR"))
+                return RedirectToAction("Index", "HR");
+            else if (User.IsInRole("User"))
+                return RedirectToAction("Index", "Application");
+            else return SignOut();
+        }
 
-            //List<Claim> claims = new List<Claim> { new Claim(ClaimTypes.Role, "Admin") };
-            //ClaimsIdentity newIdentity = new ClaimsIdentity(claims);
-            //User.AddIdentity(newIdentity);
+        [HttpGet]
+        public IActionResult SignIn()
+        {
+            var redirectUrl = Url.Action(nameof(ApiController.LogIn), "Api");
+            return Challenge(
+                new AuthenticationProperties { RedirectUri = redirectUrl },
+                OpenIdConnectDefaults.AuthenticationScheme);
+        }
 
-            //User.Claims.Append(new Claim(ClaimTypes.Role, "Admin"));
-            
 
-            bool test2 = User.IsInRole("Admin");
-       
-            return RedirectToAction("Index", "Application");
+        [HttpGet]
+        public IActionResult SignOut()
+        {
+            var callbackUrl = Url.Action(nameof(ApiController.LogIn), "Api", values: null, protocol: Request.Scheme);
+            return SignOut(new AuthenticationProperties { RedirectUri = callbackUrl },
+                CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            //TODO: 
+            return View();
         }
     }
 }
