@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRApplication.WWW.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "HR")]
     public class HRController : Controller
     {
         IHRService _hrService;

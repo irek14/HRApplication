@@ -33,12 +33,21 @@
                 <a asp-area="" asp-controller="LogIn" asp-action="Api" class="navbar-brand">HRApplication</a>
             </div>
             <div class="navbar-collapse collapse">
-                <partial name="_LoginPartial" />
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Application" asp-action="Index">Oferty pracy</a></li>
-                    <li><a asp-area="" asp-controller="AdminPanel" asp-action="Index">Admin</a></li>
-                    <li><a asp-area="" asp-controller="HR" asp-action="Index">HR</a></li>
-                    <li><a asp-area="" asp-controller="JobOffer" asp-action="Index">Oferty pracy</a></li>
+                    @if (User.IsInRole("HR"))
+                    {
+                        <li><a asp-area="" asp-controller="JobOffer" asp-action="Index">Moje oferty pracy</a></li>
+                        <li><a asp-area="" asp-controller="HR" asp-action="Index">HR</a></li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="AdminPanel" asp-action="Index">Panel administratora</a></li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("HR") || User.IsInRole("User"))
+                    {
+                        <li><a asp-area="" asp-controller="Application" asp-action="Index">Oferty pracy</a></li>
+                    }
+                    <partial class="ml-5" name="_LoginPartial" />
                 </ul>
             </div>
         </div>

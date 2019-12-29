@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.JobOffer;
 using HRApplication.BusinessLogic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRApplication.WWW.Controllers
 {
+    [Authorize(Roles = "HR")]
     public class JobOfferController : Controller
     {
         private readonly IJobOfferService _jobOfferService;
