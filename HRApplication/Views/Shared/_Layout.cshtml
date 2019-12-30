@@ -42,6 +42,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="AdminPanel" asp-action="Index">Panel administratora</a></li>
+                        <li><a asp-area="" asp-controller="AdminPanel" asp-action="ChangeRole">Zmień Role</a></li>
                     }
                     @if (User.IsInRole("Admin") || User.IsInRole("HR") || User.IsInRole("User"))
                     {

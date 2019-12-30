@@ -39,5 +39,17 @@ namespace HRApplication.WWW.Controllers
             return result;
         }
 
+        [HttpGet]
+        public IActionResult ChangeRole()
+        {
+            return View(_adminService.GetAllUsersWithUserRole());
+        }
+
+        [HttpPost]
+        public IActionResult ChangeRole(List<Guid> userIds)
+        {
+            _adminService.ChangeRoles(userIds);
+            return Ok();
+        }
     }
 }

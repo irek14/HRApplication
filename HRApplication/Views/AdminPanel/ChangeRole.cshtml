@@ -1,0 +1,85 @@
+﻿@model IEnumerable<HRApplication.BusinessLogic.Models.AdminPanel.UserViewModel>
+
+@{
+    ViewData["Title"] = "Zmień Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Zmień Role</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Czy HR?               
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <input type="checkbox" id="@item.Id"/>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<button onclick="SendRoles()" class="btn btn-primary">Potwierdź</button>
+
+<script>
+    function SendRoles() {
+        var userIds = [];
+
+        $("input:checkbox:checked").each(function () {
+            var id = $(this).attr('id');
+            userIds.push(id);
+        });
+
+        if (userIds.length == 0)
+            return;
+
+        var form = new FormData();
+        var i = 0;
+        userIds.forEach(x => {
+            form.append("userIds[" + i + "]", x);
+            i++;
+        })
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "ChangeRole",
+                "method": "POST",
+                "headers": {
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+        $.ajax(settings).done(function (response) {
+            window.location.href = "Index";
+            });
+    }
+</script>
