@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.AdminPanel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRApplication.WWW.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminPanelController : Controller
     {
         IAdminService _adminService;
@@ -37,5 +39,17 @@ namespace HRApplication.WWW.Controllers
             return result;
         }
 
+        [HttpGet]
+        public IActionResult ChangeRole()
+        {
+            return View(_adminService.GetAllUsersWithUserRole());
+        }
+
+        [HttpPost]
+        public IActionResult ChangeRole(List<Guid> userIds)
+        {
+            _adminService.ChangeRoles(userIds);
+            return Ok();
+        }
     }
 }

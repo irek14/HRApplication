@@ -7,6 +7,8 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using HRApplication.WWW.Models.AdminPanel;
+using HRApplication.BusinessLogic.Models.AdminPanel;
+using HRApplication.WWW.Helpers;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -19,6 +21,19 @@ namespace HRApplication.BusinessLogic.Services
         {
             _context = context;
             _configuration = configuration;
+        }
+
+        public void ChangeRoles(List<Guid> userIds)
+        {
+            foreach(Guid id in userIds)
+            {
+                Users user = _context.Users.Where(x => x.Id == id).FirstOrDefault();
+                if (user == null)
+                    continue;
+
+                user.RoleId = Guid.Parse(Ids.HRRoleId);
+                _context.SaveChanges();
+            }
         }
 
         public List<TableApplicationViewModel> GetAllApplications(DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
@@ -46,6 +61,11 @@ namespace HRApplication.BusinessLogic.Services
                 result = result.Where(x => x.UserName.Contains(person));
 
             return result.ToList();
+        }
+
+        public List<UserViewModel> GetAllUsersWithUserRole()
+        {
+            return _context.Users.Where(x => x.RoleId == Guid.Parse(Ids.UserRoleId)).Select(x => new UserViewModel() { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName, Email = x.Email }).ToList();
         }
     }
 }

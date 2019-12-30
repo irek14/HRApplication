@@ -1,4 +1,5 @@
-﻿using HRApplication.DataAccess.Entities;
+﻿using HRApplication.BusinessLogic.Models.AdminPanel;
+using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.AdminPanel;
 using System;
 using System.Collections.Generic;
@@ -9,5 +10,9 @@ namespace HRApplication.BusinessLogic.Interfaces
     public interface IAdminService
     {
         List<TableApplicationViewModel> GetAllApplications(DateTime? dateSince, DateTime? dateTo, string jobOffer, string person);
+
+        List<UserViewModel> GetAllUsersWithUserRole();
+
+        void ChangeRoles(List<Guid> userIds);
     }
 }
