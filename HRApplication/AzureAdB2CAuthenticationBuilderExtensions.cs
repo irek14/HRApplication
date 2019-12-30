@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using HRApplication.WWW;
 using HRApplication.DataAccess.Entities;
 using HRApplication.BusinessLogic.Interfaces;
+using HRApplication.WWW.Helpers;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -35,7 +36,6 @@ namespace HRApplication.BusinessLogic.Services
 
         public class OpenIdConnectOptionsSetup : IConfigureNamedOptions<OpenIdConnectOptions>
         {
-            private readonly HRAppDBContext _context;
             private readonly IServiceScopeFactory _scopeFactory;
             public OpenIdConnectOptionsSetup(IOptions<AzureAdB2COptions> b2cOptions,  IServiceScopeFactory scopeFactory)
             {
@@ -135,8 +135,13 @@ namespace HRApplication.BusinessLogic.Services
 
                         if(user == null)
                         {
-                            db.Users.Add(new Users() { Id = Guid.NewGuid(), Email = email, RoleId = Guid.Parse("6553A065-5414-4A04-B6DC-EEFCAEF6133D") }); //TODO: Not hardcode it
-                            return;
+                            string firstName = context.Principal.Identities.First().Claims.Where(x => x.Type == ClaimTypes.GivenName).First().Value;
+                            string lastName = context.Principal.Identities.First().Claims.Where(x => x.Type == ClaimTypes.Surname).First().Value;
+
+                            db.Users.Add(new Users() { Id = Guid.NewGuid(), Email = email, RoleId = Guid.Parse(Ids.UserRoleId), FirstName = firstName, LastName = lastName });
+                            db.SaveChanges();
+
+                            user = db.Users.Include(x => x.Role).Where(x => x.Email == email).FirstOrDefault();
                         }
 
                         context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, user.Role.RoleName));
