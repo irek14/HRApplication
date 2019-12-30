@@ -29,9 +29,6 @@ namespace HRApplication.WWW.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("SignIn", "Api");
 
-            if (User.Identity.Name == null)
-                RedirectToAction("Api", "Register");
-
             if (User.IsInRole("Admin"))
                 return RedirectToAction("Index", "AdminPanel");
             else if (User.IsInRole("HR"))
@@ -57,13 +54,6 @@ namespace HRApplication.WWW.Controllers
             var callbackUrl = Url.Action(nameof(ApiController.LogIn), "Api", values: null, protocol: Request.Scheme);
             return SignOut(new AuthenticationProperties { RedirectUri = callbackUrl },
                 CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            //TODO: 
-            return View();
         }
     }
 }
