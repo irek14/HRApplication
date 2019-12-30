@@ -13,29 +13,29 @@ DECLARE
 	@status2 uniqueidentifier,
 	@status3 uniqueidentifier
 
-SET @adminId = NEWID();
-SET @hrId = NEWID();
-SET @userId = NEWID();
-SET @stanickiId = NEWID();
-SET @kowalskiId = NEWID();
-SET @nowakId = NEWID();
-SET @contract1 = NEWID();
-SET @contract2 = NEWID();
-SET @contract3 = NEWID();
-SET @contract4 = NEWID();
-SET @status1 = NEWID();
-SET @status2 = NEWID();
-SET @status3 = NEWID();
+SET @adminId = 'DDF9A36C-0C99-4BF3-B80A-43E4D0835D1D';
+SET @hrId = '69362054-44C0-4B29-8F3E-F4F4DB50D3D6';
+SET @userId = '6553A065-5414-4A04-B6DC-EEFCAEF6133D';
+SET @stanickiId = 'ED2B2794-8851-485C-A35A-49E7E2D18B8D';
+SET @kowalskiId = 'DACB7B3D-780B-44E8-9F68-7F62200DEAE3';
+SET @nowakId = '17496B8A-8E4E-4E8A-8099-101998018B03';
+SET @contract1 = '660D5F69-A4F8-4196-98C9-9661643E12FC';
+SET @contract2 = 'B1FF31F8-A243-40B0-B82E-DF405D334716';
+SET @contract3 = '4BFCDF2F-4051-4417-BC9C-81B3B2B70828';
+SET @contract4 = '8B35095B-D954-47AF-953C-CA419AF3212D';
+SET @status1 = '80A4DC49-2F91-411E-81BC-9486318D24C8';
+SET @status2 = '6FA4DF7C-F461-43AE-990C-14DBDF41C5AC';
+SET @status3 = '14C96728-6B74-4E09-B251-33CA3232CD02';
 
 INSERT INTO UserRoles
 VALUES(@adminId, 'Administrator'), (@hrId, 'HRMember'), (@userId, 'User')
 
 INSERT INTO Users
-VALUES(@stanickiId, 'Ireneusz', 'Stanicki', 'test@test.pl', @adminId), (@kowalskiId, 'Jan', 'Kowalski', 'kowalski@test.pl', @hrId),
-		(@nowakId, 'Adam', 'Nowak', 'nowak@test.pl', @userId)
+VALUES(@stanickiId, 'Ireneusz', 'Stanicki', '01130611@pw.edu.pl', @adminId), (@kowalskiId, 'Jan', 'Kowalski', 'kekig20629@email-9.com', @hrId),
+		(@nowakId, 'Adam', 'Nowak', 'cacek34530@wmail2.net', @userId)
 
 INSERT INTO ContractTypes
 VALUES (@contract1, 'Zlecenie'), (@contract2, 'O dzieło'), (@contract3, 'O pracę'), (@contract4, 'B2B')
 
 INSERT INTO ApplicationStates
-VALUES (@status1, 'New'), (@status2, 'Approved'), (@status3, 'Rejected')
+VALUES (@status1, 'Nowa'), (@status2, 'Przyjęta'), (@status3, 'Odrzucona')
