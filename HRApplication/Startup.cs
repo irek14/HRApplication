@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.BusinessLogic.Services;
@@ -19,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
+using Swashbuckle.AspNetCore.Swagger;
 using static HRApplication.BusinessLogic.Services.AzureAdB2CAuthenticationBuilderExtensions;
 
 namespace HRApplication
@@ -74,7 +77,17 @@ namespace HRApplication
                 options.Cookie.IsEssential = true;
             });
 
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSwaggerGen(c =>
+            {
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                c.CustomSchemaIds(x => x.FullName);
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Elzab_B2B",
+                    Description = "Api documentation"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,6 +120,12 @@ namespace HRApplication
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Api}/{action=LogIn}/{id?}");
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "HR Application");
             });
         }
     }

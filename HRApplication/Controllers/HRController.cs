@@ -25,7 +25,7 @@ namespace HRApplication.WWW.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("hr/GetApplications")]
         public PagingViewModel GetApplications(int pageSize, int pageNumber, DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
         {
             //TODO: Get ID from claims
@@ -47,7 +47,7 @@ namespace HRApplication.WWW.Controllers
             return View(_hrService.GetApplicationDetails(Id));
         }
 
-        [HttpGet]
+        [HttpGet("hr/DownloadCV")]
         public async Task<IActionResult> DownloadCV(string CVFileName)
         {
             byte[] array = await _hrService.DownloadCV(CVFileName);
@@ -55,16 +55,18 @@ namespace HRApplication.WWW.Controllers
             return File(array, System.Net.Mime.MediaTypeNames.Application.Pdf, CVFileName + ".pdf");
         }
 
+        [HttpGet("hr/Accept")]
         public IActionResult Accept(Guid id)
         {
-            _hrService.ApproveApplication(id);
+            //_hrService.ApproveApplication(id);
 
             return RedirectToAction("Index", "hr");
         }
 
+        [HttpGet("hr/Reject")]
         public IActionResult Reject(Guid id)
         {
-            _hrService.RejectApplication(id);
+            //_hrService.RejectApplication(id);
 
             return RedirectToAction("Index", "hr");
         }

@@ -45,7 +45,7 @@ namespace HRApplication.WWW.Controllers
         // POST: JobOffer/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("JobOffer/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(NewJobOfferViewModel offers)
         {
@@ -73,7 +73,7 @@ namespace HRApplication.WWW.Controllers
         // POST: JobOffer/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("JobOffer/Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(NewJobOfferViewModel jobOffer)
         {
@@ -83,6 +83,7 @@ namespace HRApplication.WWW.Controllers
         }
 
         // GET: JobOffer/Delete/5
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Delete(Guid id)
         {
             _jobOfferService.DeleteJobOffer(id);

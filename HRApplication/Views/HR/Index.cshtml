@@ -81,7 +81,7 @@
                 //TODO: spinners
                 //$('#applicationTable').prepend($loading);
                 $.ajax({
-                    url: '/adminpanel/GetApplications',
+                    url: '/hr/GetApplications',
                     type: 'GET',
                     data: { pageNumber: pageNo, pageSize: 2, dateSince: dateSince, dateTo: dateTo, person: person, jobOffer: jobOffer },
                     dataType: 'json',
