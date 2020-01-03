@@ -96,7 +96,7 @@ namespace HRApplication.BusinessLogic.Services
             return result;
         }
 
-        public void RejectApplication(Guid applicationId)
+        public void RejectApplication(Guid applicationId, Guid userId)
         {
             Applications app = (from application in _context.Applicationss
                                 where application.Id == applicationId
@@ -113,7 +113,7 @@ namespace HRApplication.BusinessLogic.Services
                 ApplicationStateId = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Rejected].id,
                 ApplicationId = app.Id,
                 Date = DateTime.Now,
-                UserId = Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3") //TODO: Change after add Identity
+                UserId = userId
             };
 
             _context.ApplicationStatusHistory.Add(state);
@@ -121,7 +121,7 @@ namespace HRApplication.BusinessLogic.Services
             _context.SaveChanges();
         }
 
-        public void ApproveApplication(Guid applicationId)
+        public void ApproveApplication(Guid applicationId, Guid userId)
         {
             Applications app = (from application in _context.Applicationss
                                 where application.Id == applicationId
@@ -138,7 +138,7 @@ namespace HRApplication.BusinessLogic.Services
                 ApplicationStateId = ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Approved].id,
                 ApplicationId = app.Id,
                 Date = DateTime.Now,
-                UserId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03") //TODO: Change after add Identity
+                UserId = userId
             };
 
             _context.ApplicationStatusHistory.Add(state);

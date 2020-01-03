@@ -146,6 +146,9 @@ namespace HRApplication.BusinessLogic.Services
 
                         context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, user.Role.RoleName));
                         context.Principal.Identities.First().AddClaim(new Claim(context.Principal.Identities.First().NameClaimType, user.FirstName + " " + user.LastName));
+                        var nameIdentifier = context.Principal.Identities.First().Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).First();
+                        context.Principal.Identities.First().RemoveClaim(nameIdentifier);
+                        context.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                     }
 
                     var p = context.Principal.Identities.First();

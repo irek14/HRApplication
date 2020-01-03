@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.DataAccess.Entities;
@@ -26,7 +27,8 @@ namespace HRApplication.WWW.Controllers
         public IActionResult Index()
         {
             List<Offers> offers = _applicationService.GetAllJobOffers();
-            List<Offers> alreadyApplied = _applicationService.GetAlreadyAppliedoOffers(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"));
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            List<Offers> alreadyApplied = _applicationService.GetAlreadyAppliedoOffers(userId);
             List<TableJobOfferViewModel> model = new List<TableJobOfferViewModel>();
 
             foreach(var offer in offers)
@@ -57,6 +59,7 @@ namespace HRApplication.WWW.Controllers
             {
                 return NotFound();
             }
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
             DetailsJobOfferViewModel model = new DetailsJobOfferViewModel {
                 Id = offer.Id,
@@ -68,9 +71,9 @@ namespace HRApplication.WWW.Controllers
                 Position = offer.Position,
                 Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
                 Title = offer.Title,
-                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id),
-                IsApproved = _applicationService.CheckIfOfferIsApproved(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id),
-                IsNew = _applicationService.CheckIfOfferIsNew(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id)
+                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(userId, offer.Id),
+                IsApproved = _applicationService.CheckIfOfferIsApproved(userId, offer.Id),
+                IsNew = _applicationService.CheckIfOfferIsNew(userId, offer.Id)
             };
 
             return View(model);
@@ -82,10 +85,11 @@ namespace HRApplication.WWW.Controllers
         /// <param name="JobOfferId">Id of the job offer</param>
         /// <param name="file">CV file in .pdf format</param>
         /// <returns>Redirect to Index action</returns>
-        [HttpPost("Application/Details/Add")]
+        //[HttpPost("Application/Details/Add")]
         public async Task<IActionResult> Add(Guid JobOfferId, IFormFile file)
         {
-            bool result = await _applicationService.AddNewApplication(JobOfferId, file);
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            bool result = await _applicationService.AddNewApplication(JobOfferId, file, userId);
 
             if (!result)
                 return BadRequest();
@@ -96,7 +100,8 @@ namespace HRApplication.WWW.Controllers
         [HttpPost("Application/Details/Delete")]
         public async Task<IActionResult> Delete(Guid JobOfferId)
         {
-            await _applicationService.DeleteApplication(JobOfferId);
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            await _applicationService.DeleteApplication(JobOfferId, userId);
 
             return Json(new { redirecturl = Url.Action("Index","Application") });
         }
@@ -104,7 +109,8 @@ namespace HRApplication.WWW.Controllers
         [HttpPost("Application/Details/Edit")]
         public IActionResult Edit(Guid JobOfferId, IFormFile file)
         {
-            _applicationService.EditApplication(JobOfferId, file);
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            _applicationService.EditApplication(JobOfferId, file, userId);
 
             return Ok();
         }

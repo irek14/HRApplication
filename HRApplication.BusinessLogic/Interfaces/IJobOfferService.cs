@@ -14,7 +14,7 @@ namespace HRApplication.BusinessLogic.Interfaces
     {
         List<SelectListItem> GetContractTypes();
 
-        Task CreateJobOffer(string title, string description, Guid contractType,string salaryFrom, string salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate);
+        Task CreateJobOffer(string title, string description, Guid contractType,string salaryFrom, string salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate, Guid userId);
 
         List<TableJobOfferViewModel> GetAllMyOffers(Guid hrMemberId);
 

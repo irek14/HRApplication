@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HRApplication.BusinessLogic.Interfaces;
 using HRApplication.DataAccess.Entities;
@@ -28,8 +29,7 @@ namespace HRApplication.WWW.Controllers
         [HttpGet("hr/GetApplications")]
         public PagingViewModel GetApplications(int pageSize, int pageNumber, DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
         {
-            //TODO: Get ID from claims
-            Guid hrMemberId = Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3");
+            Guid hrMemberId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
             List<TableApplicationViewModel> applications = _hrService.GetAllApplications(hrMemberId,dateSince, dateTo, jobOffer, person);
             PagingViewModel result = new PagingViewModel();
@@ -58,7 +58,8 @@ namespace HRApplication.WWW.Controllers
         [HttpGet("hr/Accept")]
         public IActionResult Accept(Guid id)
         {
-            //_hrService.ApproveApplication(id);
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            _hrService.ApproveApplication(id, userId);
 
             return RedirectToAction("Index", "hr");
         }
@@ -66,7 +67,8 @@ namespace HRApplication.WWW.Controllers
         [HttpGet("hr/Reject")]
         public IActionResult Reject(Guid id)
         {
-            //_hrService.RejectApplication(id);
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            _hrService.RejectApplication(id, userId);
 
             return RedirectToAction("Index", "hr");
         }

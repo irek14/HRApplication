@@ -22,12 +22,12 @@ namespace HRApplication.BusinessLogic.Services
             _context = context;
         }
 
-        public async Task CreateJobOffer(string title, string description, Guid contractType, string salaryFrom, string salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate)
+        public async Task CreateJobOffer(string title, string description, Guid contractType, string salaryFrom, string salaryTo, bool partTime, decimal? weekHours, string position, DateTime? endDate, Guid userId)
         {
             Offers offer = new Offers {
                 Id = Guid.NewGuid(),
                 ContractTypeId = contractType,
-                CreatedById = Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3"),
+                CreatedById = userId,
                 CreatedOn = DateTime.Now,
                 Description = description,
                 HoursPerWeek = weekHours,
