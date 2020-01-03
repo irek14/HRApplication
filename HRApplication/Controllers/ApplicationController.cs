@@ -68,7 +68,9 @@ namespace HRApplication.WWW.Controllers
                 Position = offer.Position,
                 Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
                 Title = offer.Title,
-                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id)
+                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id),
+                IsApproved = _applicationService.CheckIfOfferIsApproved(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id),
+                IsNew = _applicationService.CheckIfOfferIsNew(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id)
             };
 
             return View(model);
