@@ -45,6 +45,7 @@ namespace HRApplication.WWW.Controllers
             return View(model);
         }
 
+        [HttpGet("Application/Details")]
         public IActionResult Details(Guid id)
         {
             Offers offer;
@@ -67,14 +68,21 @@ namespace HRApplication.WWW.Controllers
                 Position = offer.Position,
                 Salary = offer.SalaryFrom + "-" + offer.SalaryTo,
                 Title = offer.Title,
-                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id)
+                IsAlreadyApplied = _applicationService.CheckIsOfferIsAlreadyApplied(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id),
+                IsApproved = _applicationService.CheckIfOfferIsApproved(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id),
+                IsNew = _applicationService.CheckIfOfferIsNew(Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), offer.Id)
             };
 
             return View(model);
         }
 
-        [Route("Application/Details/Add")]
-        [HttpPost]
+        /// <summary>
+        /// Function add CV to a job offer with specified Id
+        /// </summary>
+        /// <param name="JobOfferId">Id of the job offer</param>
+        /// <param name="file">CV file in .pdf format</param>
+        /// <returns>Redirect to Index action</returns>
+        [HttpPost("Application/Details/Add")]
         public async Task<IActionResult> Add(Guid JobOfferId, IFormFile file)
         {
             bool result = await _applicationService.AddNewApplication(JobOfferId, file);
@@ -85,8 +93,7 @@ namespace HRApplication.WWW.Controllers
             return RedirectToAction("Index", "Application");
         }
 
-        [Route("Application/Details/Delete")]
-        [HttpPost]
+        [HttpPost("Application/Details/Delete")]
         public async Task<IActionResult> Delete(Guid JobOfferId)
         {
             await _applicationService.DeleteApplication(JobOfferId);
@@ -94,8 +101,7 @@ namespace HRApplication.WWW.Controllers
             return Json(new { redirecturl = Url.Action("Index","Application") });
         }
 
-        [Route("Application/Details/Edit")]
-        [HttpPost]
+        [HttpPost("Application/Details/Edit")]
         public IActionResult Edit(Guid JobOfferId, IFormFile file)
         {
             _applicationService.EditApplication(JobOfferId, file);

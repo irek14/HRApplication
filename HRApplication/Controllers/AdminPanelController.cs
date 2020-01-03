@@ -25,7 +25,17 @@ namespace HRApplication.WWW.Controllers
             return View();
         }
 
-        [HttpGet]
+        /// <summary>
+        /// Funnctions return applications for admin applications list with paging
+        /// </summary>
+        /// <param name="pageSize">Size of page</param>
+        /// <param name="pageNumber">Number of page</param>
+        /// <param name="dateSince">Filter start date parameter</param>
+        /// <param name="dateTo">Filter end date parameter</param>
+        /// <param name="jobOffer">Filter to jobOffer name (based on contatins filter)</param>
+        /// <param name="person">Filter to person name (based on contatins filter)</param>
+        /// <returns></returns>
+        [HttpGet("adminpanel/GetApplications")]
         public PagingViewModel GetApplications(int pageSize, int pageNumber, DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
         {
 
@@ -39,13 +49,13 @@ namespace HRApplication.WWW.Controllers
             return result;
         }
 
-        [HttpGet]
+        [HttpGet("adminpanel/ChangeRole")]
         public IActionResult ChangeRole()
         {
             return View(_adminService.GetAllUsersWithUserRole());
         }
 
-        [HttpPost]
+        [HttpPost("adminpanel/ChangeRole")]
         public IActionResult ChangeRole(List<Guid> userIds)
         {
             _adminService.ChangeRoles(userIds);

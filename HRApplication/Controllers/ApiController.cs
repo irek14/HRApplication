@@ -38,7 +38,7 @@ namespace HRApplication.WWW.Controllers
             else return SignOut();
         }
 
-        [HttpGet]
+        [HttpGet("Api/SignIn")]
         public IActionResult SignIn()
         {
             var redirectUrl = Url.Action(nameof(ApiController.LogIn), "Api");
@@ -48,7 +48,7 @@ namespace HRApplication.WWW.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("Api/SignOut")]
         public IActionResult SignOut()
         {
             var callbackUrl = Url.Action(nameof(ApiController.LogIn), "Api", values: null, protocol: Request.Scheme);
