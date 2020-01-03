@@ -59,16 +59,20 @@
     <a class="btn btn-secondary" asp-action="Index">Powrót</a>
     @if (!Model.IsAlreadyApplied)
     {
-        <a class="application btn btn-success">Aplikuj</a>
+        <button class="application btn btn-success">Aplikuj</button>
     }
     else if (!Model.IsNew)
     {
-        <a class="editApplication">Edytuj swoje zgłoszenie | </a> //TODO:
-        <a class="cancelApplication">Zrezygnuj</a>
+        <button class="editApplication btn btn-success">Edytuj swoje zgłoszenie</button>
+        <button class="cancelApplication btn btn-danger">Zrezygnuj</button>
+    }
+    else if (Model.IsApproved)
+    {
+        <h5 class="badge badge-pill badge-success">Twoje zgłoszenie zostało przyjęte</h5>
     }
     else
     {
-        //TODO: Some massage about status of application
+        <h5 class="badge badge-pill badge-danger">Twoje zgłoszenie zostało odrzucone</h5>
     }
 </div>
 
@@ -157,8 +161,8 @@
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: 400,
-      width: 350,
+      height: 200,
+      width: 500,
       modal: true,
       buttons: {
         "Aplikuj": addAplication,
@@ -170,8 +174,8 @@
 
       dialogEdit = $("#dialog-form-edit").dialog({
           autoOpen: false,
-          height: 400,
-          width: 350,
+          height: 200,
+          width: 500,
           modal: true,
           buttons: {
               "Aplikuj": editApplication,
@@ -228,10 +232,9 @@
   } );
     </script>
 
-    <div id="dialog-form" title="Aplikuj na stanowisko">
+    <div id="dialog-form" title="Wyślij nam swoje CV">
         <form>
-            <h2>Wyślij nam swoje CV</h2>
-            <h4>My zajmiemy się resztą</h4>
+            <span class="label label-success">My zajmiemy się resztą</span>
             <fieldset>
                 <input id="fileInput" type="file" required accept=".pdf" />
 
@@ -242,8 +245,7 @@
 
     <div id="dialog-form-edit" title="Edytuj CV">
         <form>
-            <h2>Wyślij nam swoje CV</h2>
-            <h4>Pracodawca zobaczy jego najnowszą wersję przy przeglądaniu aplikacji</h4>
+            <span class="label label-success">Pracodawca zobaczy jego najnowszą wersję przy przeglądaniu aplikacji</span>
             <fieldset>
                 <input id="fileInputEdit" type="file" required accept=".pdf" />
 
