@@ -13,7 +13,7 @@ namespace HRApplication.BusinessLogic.Interfaces
 
         Offers GetOfferById(Guid id);
 
-        Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV);
+        Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV, Guid userId);
 
         List<Offers> GetAlreadyAppliedoOffers(Guid userId);
 
@@ -23,9 +23,9 @@ namespace HRApplication.BusinessLogic.Interfaces
 
         bool CheckIfOfferIsApproved(Guid userId, Guid jobOfferId);
 
-        Task DeleteApplication(Guid JobOfferId);
+        Task DeleteApplication(Guid JobOfferId, Guid userId);
 
-        void EditApplication(Guid JobOfferId, IFormFile CV);
+        void EditApplication(Guid JobOfferId, IFormFile CV, Guid userId);
 
         Task SendNorificationToHRMember(string email, string userName);
     }

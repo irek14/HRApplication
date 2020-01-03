@@ -33,7 +33,7 @@ namespace HRApplication.BusinessLogic.Services
             _configuration = configuration;
         }
 
-        public async Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV)
+        public async Task<bool> AddNewApplication(Guid JobOfferId, IFormFile CV, Guid userId)
         {
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
@@ -47,7 +47,7 @@ namespace HRApplication.BusinessLogic.Services
 
                     Applications application = new Applications
                     {
-                        CreatedById = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"), //TODO: Not mock user
+                        CreatedById = userId,
                         CreateOn = DateTime.Now,
                         Id = Guid.NewGuid(),
                         OfferId = JobOfferId,
@@ -117,10 +117,8 @@ namespace HRApplication.BusinessLogic.Services
             return offers.Count() != 0;
         }
 
-        public async Task DeleteApplication(Guid JobOfferId)
+        public async Task DeleteApplication(Guid JobOfferId, Guid userId)
         {
-            Guid userId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03"); //TODO: not mock user
-
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
@@ -153,10 +151,8 @@ namespace HRApplication.BusinessLogic.Services
             }
         }
 
-        public void EditApplication(Guid JobOfferId, IFormFile CV)
+        public void EditApplication(Guid JobOfferId, IFormFile CV, Guid userId)
         {
-            Guid userId = Guid.Parse("17496B8A-8E4E-4E8A-8099-101998018B03");
-
             var appToEdit = _context.Applicationss.Where(x => x.CreatedById == userId && x.OfferId == JobOfferId).First();
 
             string fileName = "cv" + appToEdit.Id.ToString();

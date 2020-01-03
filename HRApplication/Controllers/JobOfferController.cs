@@ -9,6 +9,7 @@ using HRApplication.DataAccess.Entities;
 using HRApplication.WWW.Models.JobOffer;
 using HRApplication.BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HRApplication.WWW.Controllers
 {
@@ -25,7 +26,8 @@ namespace HRApplication.WWW.Controllers
         // GET: JobOffer
         public IActionResult Index()
         {
-            return View(_jobOfferService.GetAllMyOffers(Guid.Parse("DACB7B3D-780B-44E8-9F68-7F62200DEAE3"))); //TODO: Change after autorizathion added
+            Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            return View(_jobOfferService.GetAllMyOffers(userId));
         }
 
         // GET: JobOffer/Details/5
@@ -51,7 +53,8 @@ namespace HRApplication.WWW.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _jobOfferService.CreateJobOffer(offers.Title, offers.Description, offers.ContractTypeId,offers.SalaryFrom, offers.SalaryTo, offers.PartTimeWork, offers.HoursPerWeek, offers.Position, offers.EndDate);
+                Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                await _jobOfferService.CreateJobOffer(offers.Title, offers.Description, offers.ContractTypeId,offers.SalaryFrom, offers.SalaryTo, offers.PartTimeWork, offers.HoursPerWeek, offers.Position, offers.EndDate, userId);
 
                 return RedirectToAction("Index", "JobOffer");
             }
