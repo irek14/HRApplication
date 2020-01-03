@@ -29,9 +29,9 @@ namespace HRApplication.WWW.Controllers
         }
 
         // GET: JobOffer/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            return View();
+            return View(_jobOfferService.GetJobOfferWithId(id));
         }
 
         // GET: JobOffer/Create

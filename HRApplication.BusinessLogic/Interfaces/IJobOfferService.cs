@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using DetailsJobOfferViewModel = HRApplication.BusinessLogic.Models.JobOffer.DetailsJobOfferViewModel;
 
 namespace HRApplication.BusinessLogic.Interfaces
 {
@@ -22,5 +23,7 @@ namespace HRApplication.BusinessLogic.Interfaces
         NewJobOfferViewModel GetJobOfferToEdit(Guid offerId);
 
         void EditJobOffer(NewJobOfferViewModel offer);
+
+        DetailsJobOfferViewModel GetJobOfferWithId(Guid id);
     }
 }
