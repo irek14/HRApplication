@@ -97,7 +97,7 @@ namespace HRApplication.WWW.Controllers
             return RedirectToAction("Index", "Application");
         }
 
-        [HttpPost("Application/Details/Delete")]
+        [HttpPost("Application/Delete")]
         public async Task<IActionResult> Delete(Guid JobOfferId)
         {
             Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
@@ -106,7 +106,7 @@ namespace HRApplication.WWW.Controllers
             return Json(new { redirecturl = Url.Action("Index","Application") });
         }
 
-        [HttpPost("Application/Details/Edit")]
+        [HttpPost("Application/Edit")]
         public IActionResult Edit(Guid JobOfferId, IFormFile file)
         {
             Guid userId = Guid.Parse(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);

@@ -8,7 +8,7 @@
 <a asp-action="Details" asp-controller="JobOffer" asp-route-id="@Model.OfferId"><h2>@Model.Title</h2></a>
 <h5>Status: @Model.CurrentApplicationStateName</h5>
 <a class="btn btn-secondary" asp-action="Index">Powrót</a>
-<a class="btn btn-primary" href="https://localhost:44351/hr/downloadCV?CVFileName=@Model.CvfileName">Pobierz CV</a>
+<a class="btn btn-primary" href="../downloadCV?CVFileName=@Model.CvfileName">Pobierz CV</a>
 @if (Model.IsNew)
 {
     <a class="btn btn-success" asp-action="Accept" asp-route-id="@Model.Id">Akceptuj</a>
@@ -29,25 +29,3 @@
         <input type="text" readonly="" placeholder="@Model.CreatedBy" novalidate="novalidate" class="form-control">
     </div>
 </div>
-
-<script>
-    function DownloadCV(fileName) {
-
-
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://localhost:44351/hr/downloadCV?CVFileName=" + fileName,
-            "method": "GET",
-            "headers": {
-                "cache-control": "no-cache"
-            },
-            "processData": false,
-            "contentType": false
-        }
-
-        $.ajax(settings).done(function (response) {
-            //console.log(response);
-        });
-    }
-</script>
