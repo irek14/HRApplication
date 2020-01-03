@@ -57,6 +57,23 @@ button.accept-policy {
     border-color: #5d005d !important;
 }
 
+.btn-success{
+    color :white !important;
+}
+
+.a:hover{
+    cursor: pointer !important;
+}
+
+.ui-dialog-titlebar-close{
+    display:none;
+}
+
+.ui-dialog-titlebar {
+    background-color: #5d005d !important;
+    color: white !important;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

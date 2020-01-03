@@ -21,4 +21,6 @@
     <ProjectReference Include="..\HRApplication.BusinessLogic\HRApplication.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>
