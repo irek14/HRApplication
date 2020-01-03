@@ -11,6 +11,7 @@ namespace ITBoom_MSS.DataAccess.Configuration
     {
         public void Configure(EntityTypeBuilder<ApplicationStatusHistory> builder)
         {
+            builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedNever();
 
             builder.Property(e => e.Date).HasColumnType("date");

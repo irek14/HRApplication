@@ -12,6 +12,10 @@ namespace ITBoom_MSS.DataAccess.Configuration
         public void Configure(EntityTypeBuilder<Applications> builder)
         {
             builder.ToTable("Applications");
+            builder.HasKey(e => e.Id);
+
+            builder.HasIndex(p => p.CreateOn);
+            builder.HasIndex(p => p.ApplicationStatusHistoryId);
 
             builder.Property(e => e.Id).ValueGeneratedNever();
 
