@@ -162,7 +162,6 @@ namespace HRApplication.BusinessLogic.Services
                 }
                 catch
                 {
-                    //TODO: Handle
                     throw;
                 }
             }

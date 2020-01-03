@@ -11,6 +11,10 @@ namespace ITBoom_MSS.DataAccess.Configuration
     {
         public void Configure(EntityTypeBuilder<Offers> builder)
         {
+            builder.HasKey(e => e.Id);
+
+            builder.HasIndex(p => p.EndDate);
+
             builder.Property(e => e.Id).ValueGeneratedNever();
 
             builder.Property(e => e.CreatedOn).HasColumnType("date");

@@ -39,3 +39,13 @@ VALUES (@contract1, 'Zlecenie'), (@contract2, 'O dzieło'), (@contract3, 'O prac
 
 INSERT INTO ApplicationStates
 VALUES (@status1, 'Nowa'), (@status2, 'Przyjęta'), (@status3, 'Odrzucona')
+
+--To autoincrement 
+CREATE SEQUENCE [dbo].[shared.OfferNumber] 
+ AS [bigint]
+ START WITH 1000
+ INCREMENT BY 1
+ MINVALUE -9223372036854775808
+ MAXVALUE 9223372036854775807
+ CACHE 
+GO
