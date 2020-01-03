@@ -87,6 +87,26 @@ namespace HRApplication.BusinessLogic.Services
             return true;
         }
 
+        public bool CheckIfOfferIsApproved(Guid userId, Guid jobOfferId)
+        {
+            var offers = from offer in _context.Offers
+                         join application in _context.Applicationss on offer.Id equals application.OfferId
+                         where application.CreatedById == userId && offer.Id == jobOfferId && application.CurrentApplicationStateName == ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.Approved].name
+                         select offer;
+
+            return offers.Count() != 0;
+        }
+
+        public bool CheckIfOfferIsNew(Guid userId, Guid jobOfferId)
+        {
+            var offers = from offer in _context.Offers
+                         join application in _context.Applicationss on offer.Id equals application.OfferId
+                         where application.CreatedById == userId && offer.Id == jobOfferId && application.CurrentApplicationStateName == ApplicationStatusesData.applicationStatusesIds[(int)ApplicationStatus.New].name
+                         select offer;
+
+            return offers.Count() != 0;
+        }
+
         public bool CheckIsOfferIsAlreadyApplied(Guid userId, Guid jobOfferId)
         {
             var offers = from offer in _context.Offers
