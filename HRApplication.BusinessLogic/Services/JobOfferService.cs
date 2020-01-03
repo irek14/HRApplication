@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HRApplication.BusinessLogic.Models.JobOffer;
 using HRApplication.WWW.Models.JobOffer;
+using DetailsJobOfferViewModel = HRApplication.BusinessLogic.Models.JobOffer.DetailsJobOfferViewModel;
 
 namespace HRApplication.BusinessLogic.Services
 {
@@ -125,6 +126,31 @@ namespace HRApplication.BusinessLogic.Services
                              SalaryFrom = offer.SalaryFrom.ToString(),
                              SalaryTo = offer.SalaryTo.ToString(),
                              Title = offer.Title
+                         }).FirstOrDefault();
+
+            return result;
+        }
+
+        public DetailsJobOfferViewModel GetJobOfferWithId(Guid id)
+        {
+            var result = (from jobOffer in _context.Offers
+                         join contract in _context.ContractTypes on jobOffer.ContractTypeId equals contract.Id
+                         join hr in _context.Users on jobOffer.CreatedById equals hr.Id
+                         where jobOffer.Id == id
+                         select new DetailsJobOfferViewModel()
+                         {
+                             Id = jobOffer.Id,
+                             Salary = jobOffer.SalaryFrom.ToString() + "-" + jobOffer.SalaryTo.ToString(),
+                             Title = jobOffer.Title,
+                             Position = jobOffer.Position,
+                             IsArchived = jobOffer.IsArchived,
+                             EndDate = jobOffer.EndDate,
+                             Description = jobOffer.Description,
+                             HoursPerWeek = jobOffer.HoursPerWeek,
+                             PartTimeWork = jobOffer.PartTimeWork,
+                             ContractType = contract.ContractTypeName,
+                             CreatedBy = hr.FirstName + " " + hr.LastName,
+                             CreatedOn = jobOffer.CreatedOn
                          }).FirstOrDefault();
 
             return result;

@@ -5,71 +5,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<a asp-action="Details" asp-controller="JobOffer" asp-route-id="@Model.OfferId"><h2>@Model.Title</h2></a>
+<h5>Status: @Model.CurrentApplicationStateName</h5>
+<a class="btn btn-secondary" asp-action="Index">Powrót</a>
+<a class="btn btn-primary" href="https://localhost:44351/hr/downloadCV?CVFileName=@Model.CvfileName">Pobierz CV</a>
+@if (Model.IsNew)
+{
+    <a class="btn btn-success" asp-action="Accept" asp-route-id="@Model.Id">Akceptuj</a>
+    <a class="btn btn-danger" asp-action="Reject" asp-route-id="@Model.Id">Odrzuć</a>
+}
 
-<div>
-    <h4>ApplicationDetailsViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateOn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreateOn)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CvfileName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CvfileName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OfferId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OfferId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentApplicationStateName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CurrentApplicationStateName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-    <a href="https://localhost:44351/hr/downloadCV?CVFileName=@Model.CvfileName">Pobierz CV</a>
-    @if (Model.IsNew)
-    {
-        <a asp-action="Accept" asp-route-id="@Model.Id">Akceptuj</a>
-        <a asp-action="Reject" asp-route-id="@Model.Id">Odrzuć</a>
-    }
-
+<div class="row col-8">
+    <div class="form-group">
+        <label class="control-label">@Html.DisplayNameFor(model => model.Position)</label>
+        <input type="text" readonly="" placeholder="@Model.Position" novalidate="novalidate" class="form-control">
+    </div>
+    <div class="form-group">
+        <label class="control-label">@Html.DisplayNameFor(model => model.CreateOn)</label>
+        <input type="text" readonly="" placeholder="@Model.CreateOn" novalidate="novalidate" class="form-control">
+    </div>
+    <div class="form-group">
+        <label class="control-label">@Html.DisplayNameFor(model => model.CreatedBy)</label>
+        <input type="text" readonly="" placeholder="@Model.CreatedBy" novalidate="novalidate" class="form-control">
+    </div>
 </div>
 
 <script>
