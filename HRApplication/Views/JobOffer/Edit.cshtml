@@ -20,14 +20,14 @@
             <div class="form-group row text-right required">
                 <label class="col-sm-2 col-form-label">Wpisz tytuł</label>
                 <div class="col-sm-8">
-                    <input class="form-control" asp-for="Title" />
+                    <input class="form-control" id="title" asp-for="Title" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row text-right required">
                 <label asp-for="Description" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-8">
-                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <textarea asp-for="Description" id="description" class="form-control"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
@@ -91,3 +91,30 @@
         </form>
     </div>
 </div>
+
+<script>
+    $("#form").ready(function () {
+
+      $("#form").validate();
+      //walidacja tytułu
+      $("input[id*=title]").rules("add",
+        {
+          required: true,
+          regex: "[A-Za-z1-3]+",
+          messages: {
+            required: "Wprowadź tytuł",
+            regex: "Tytuł zawiera niedozwolone znaki"
+          }
+        });
+      //walidacja opisu
+        $("textarea[id*=description]").rules("add",
+        {
+          required: true,
+          minlength: 50,
+          messages: {
+            required: "Podaj opis",
+            minlength: jQuery.validator.format("Opis zbyt krótki")
+          }
+        });
+    });
+</script>
