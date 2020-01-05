@@ -23,17 +23,18 @@ namespace HRApplication.BusinessLogic.Services
             _configuration = configuration;
         }
 
-        public void ChangeRoles(List<Guid> userIds)
+        public void ChangeRoles(Guid userId, bool toHr)
         {
-            foreach(Guid id in userIds)
-            {
-                Users user = _context.Users.Where(x => x.Id == id).FirstOrDefault();
-                if (user == null)
-                    continue;
+            Users user = _context.Users.Where(x => x.Id == userId).FirstOrDefault();
+            if (user == null)
+                return;
 
+            if (toHr)
                 user.RoleId = Guid.Parse(Ids.HRRoleId);
-                _context.SaveChanges();
-            }
+            else
+                user.RoleId = Guid.Parse(Ids.UserRoleId);
+
+            _context.SaveChanges();
         }
 
         public List<TableApplicationViewModel> GetAllApplications(DateTime? dateSince, DateTime? dateTo, string jobOffer, string person)
@@ -63,9 +64,11 @@ namespace HRApplication.BusinessLogic.Services
             return result.ToList();
         }
 
-        public List<UserViewModel> GetAllUsersWithUserRole()
+        public List<UserViewModel> GetAllUsers()
         {
-            return _context.Users.Where(x => x.RoleId == Guid.Parse(Ids.UserRoleId)).Select(x => new UserViewModel() { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName, Email = x.Email }).ToList();
+            return _context.Users.Select(x => new UserViewModel()
+                    { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName, Email = x.Email, IsHr = (x.RoleId == Guid.Parse(Ids.HRRoleId)) })
+                    .ToList();
         }
     }
 }

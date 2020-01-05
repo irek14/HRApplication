@@ -11,8 +11,8 @@ namespace HRApplication.BusinessLogic.Interfaces
     {
         List<TableApplicationViewModel> GetAllApplications(DateTime? dateSince, DateTime? dateTo, string jobOffer, string person);
 
-        List<UserViewModel> GetAllUsersWithUserRole();
+        List<UserViewModel> GetAllUsers();
 
-        void ChangeRoles(List<Guid> userIds);
+        void ChangeRoles(Guid userId, bool toHr);
     }
 }

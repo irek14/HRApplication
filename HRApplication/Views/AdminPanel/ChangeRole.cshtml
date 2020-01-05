@@ -26,43 +26,38 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <input type="checkbox" id="@item.Id"/>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @if (item.IsHr)
+            {
+                <input id="@item.Id" onchange="SendRoles('@item.Id')" data-on="Tak" data-off="Nie" data-onstyle="success" data-offstyle="danger" type="checkbox" checked data-toggle="toggle">
+            }
+            else
+            {
+                <input id="@item.Id" onchange="SendRoles('@item.Id')" data-on="Tak" data-off="Nie" data-onstyle="success" data-offstyle="danger" type="checkbox" data-toggle="toggle">
+            }
+        </td>
+    </tr>
 }
     </tbody>
 </table>
-<button onclick="SendRoles()" class="btn btn-primary">Potwierdź zmianę ról</button>
 
 <script>
-    function SendRoles() {
-        var userIds = [];
-
-        $("input:checkbox:checked").each(function () {
-            var id = $(this).attr('id');
-            userIds.push(id);
-        });
-
-        if (userIds.length == 0)
-            return;
+    function SendRoles(id) {
+        var value = $("#" + id).prop('checked');
 
         var form = new FormData();
-        var i = 0;
-        userIds.forEach(x => {
-            form.append("userIds[" + i + "]", x);
-            i++;
-        })
+        form.append("userId", id);
+        form.append("toHr", value);
 
             var settings = {
                 "async": true,
@@ -79,7 +74,7 @@
             }
 
         $.ajax(settings).done(function (response) {
-            window.location.href = "Index";
+
             });
     }
 </script>

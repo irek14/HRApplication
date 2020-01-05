@@ -52,13 +52,13 @@ namespace HRApplication.WWW.Controllers
         [HttpGet("adminpanel/ChangeRole")]
         public IActionResult ChangeRole()
         {
-            return View(_adminService.GetAllUsersWithUserRole());
+            return View(_adminService.GetAllUsers());
         }
 
         [HttpPost("adminpanel/ChangeRole")]
-        public IActionResult ChangeRole(List<Guid> userIds)
+        public IActionResult ChangeRole(Guid userId, bool toHr)
         {
-            _adminService.ChangeRoles(userIds);
+            _adminService.ChangeRoles(userId, toHr);
             return Ok();
         }
     }
