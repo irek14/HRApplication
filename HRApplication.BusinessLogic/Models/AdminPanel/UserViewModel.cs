@@ -14,5 +14,6 @@ namespace HRApplication.BusinessLogic.Models.AdminPanel
         public string LastName { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
+        public bool IsHr { get; set; }
     }
 }

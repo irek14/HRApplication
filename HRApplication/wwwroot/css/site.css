@@ -74,6 +74,10 @@ button.accept-policy {
     color: white !important;
 }
 
+textarea{
+    min-height: 350px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
