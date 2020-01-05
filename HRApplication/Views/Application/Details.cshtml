@@ -59,7 +59,7 @@
     <a class="btn btn-secondary" asp-action="Index">Powrót</a>
     @if (!Model.IsAlreadyApplied)
     {
-        <button class="application btn btn-success">Aplikuj</button>
+        <button id="applyButton" class="application btn btn-success">Aplikuj</button>
     }
     else if (Model.IsNew)
     {
