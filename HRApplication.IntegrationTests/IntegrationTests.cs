@@ -38,13 +38,13 @@ namespace Tests
             int SalaryTo = 4000;
             //
 
-            if(!context.Users.Any())
+            if (!context.Users.Any())
                 context.Users.Add(new Users() { Id = createdById });
 
-            if(!context.ContractTypes.Any())
+            if (!context.ContractTypes.Any())
                 context.ContractTypes.Add(new ContractTypes() { Id = contractType });
 
-            if(!context.Offers.Any())
+            if (!context.Offers.Any())
                 context.Offers.Add(new Offers() { Id = offerId, Description = description, CreatedById = createdById, Position = position, SalaryFrom = SalaryFrom, SalaryTo = SalaryTo, ContractTypeId = contractType });
 
             context.SaveChanges();

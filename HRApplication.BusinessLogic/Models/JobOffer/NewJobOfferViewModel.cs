@@ -35,7 +35,7 @@ namespace HRApplication.WWW.Models.JobOffer
 
         [Display(Name = "Godziny tygodniowo")]
         [RegularExpression(@"[0-9]+\.*[0-9]*", ErrorMessage = "Wprowadź poprawną liczbę")]
-        public decimal HoursPerWeek { get; set; }
+        public decimal? HoursPerWeek { get; set; }
 
         [Display(Name = "Data zakończenia ogłoszenia")]
         public DateTime? EndDate { get; set; }
