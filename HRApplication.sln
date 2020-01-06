@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRApplication.DataAccess", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRApplication.BuisnessEntities", "HRApplication.BuisnessEntities\HRApplication.BuisnessEntities.csproj", "{060ACD4C-A7AB-4229-9759-E9E42FBE2FAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRApplication.UITests", "HRApplication.UITests\HRApplication.UITests.csproj", "{FDBB7D70-04F5-428E-9912-A698254A9866}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRApplication.UITests", "HRApplication.UITests\HRApplication.UITests.csproj", "{FDBB7D70-04F5-428E-9912-A698254A9866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRApplication.IntegrationTests", "HRApplication.UnitTests\HRApplication.IntegrationTests.csproj", "{6870E0B6-35A4-4043-A236-C18A48A62827}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FDBB7D70-04F5-428E-9912-A698254A9866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDBB7D70-04F5-428E-9912-A698254A9866}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDBB7D70-04F5-428E-9912-A698254A9866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6870E0B6-35A4-4043-A236-C18A48A62827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6870E0B6-35A4-4043-A236-C18A48A62827}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6870E0B6-35A4-4043-A236-C18A48A62827}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6870E0B6-35A4-4043-A236-C18A48A62827}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
