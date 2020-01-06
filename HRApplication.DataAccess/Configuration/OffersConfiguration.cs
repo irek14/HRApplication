@@ -12,6 +12,9 @@ namespace ITBoom_MSS.DataAccess.Configuration
         public void Configure(EntityTypeBuilder<Offers> builder)
         {
             builder.HasKey(e => e.Id);
+            //builder.Property(e => e.Id)
+            //    .HasColumnName("ISU_Id")
+            //    .HasDefaultValueSql("NEXT VALUE FOR shared.OfferNumber");
 
             builder.HasIndex(p => p.EndDate);
 
